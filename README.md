@@ -12,7 +12,7 @@ Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jal
 
 ## Import this line in Flutter pubspec.yaml
 ```dart
-jalali_table_calendar: ^1.0.0
+jalali_table_calendar: ^1.0.1
 ```
 ## To  Use Calendar Or DatePicker  , Import this line to your dart file
 ```dart
@@ -205,4 +205,4 @@ print("Parse Jalali To Gregorian ${persianDate.jalaliToGregorian("1368-05-30 19:
 
 
 ## bug report and suggestions
-if you have any issue or any suggestion you could contact a.zare.developer@gmail.com or j.zobeidi89@gmail.com
+if you have any issue or any suggestion you could contact a.zare.developer@gmail.com or j.zobeidi89@gmail.com author of [jalali_calendar](https://pub.dev/packages/jalali_calendar) package
