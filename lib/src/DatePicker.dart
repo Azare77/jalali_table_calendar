@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:persian_date/persian_date.dart';
+import 'package:jalali_table_calendar/src/persian_date.dart';
 
 typedef DateChangedCallback(int year, int month, int date);
 

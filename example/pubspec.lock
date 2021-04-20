@@ -110,7 +110,7 @@ packages:
     source: hosted
     version: "1.8.0"
   persian_date:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: persian_date
       url: "https://pub.dartlang.org"

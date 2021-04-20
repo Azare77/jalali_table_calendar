@@ -38,7 +38,6 @@ const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 const double _kMaxDayPickerHeight =
     _kDayPickerRowHeight * (_kMaxDayPickerRowCount + 2);
 
-
 class _DayPickerGridDelegate extends SliverGridDelegate {
   const _DayPickerGridDelegate();
 
@@ -329,7 +328,7 @@ class CalendarDayPicker extends StatelessWidget {
         List dayEvents = [];
         if (events[dayToBuild] != null) dayEvents = events[dayToBuild];
         //get Marker for day
-        Widget mark = marker( dayToBuild,dayEvents);
+        Widget mark = marker(dayToBuild, dayEvents);
         Widget dayWidget = Container(
           decoration: decoration,
           child: Stack(
@@ -541,12 +540,14 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
   }
 
   Widget _buildItems(BuildContext context, int index) {
-    DateTime month = _addMonthsToMonthDate(widget.firstDate, index);
+    DateTime month = widget.selectedDate;
+
     final PersianDate selectedPersainDate = PersianDate.pDate(
         gregorian: widget.selectedDate.toString()); // To Edit Month Displaye
 
-    // if (selectedPersainDate.day >= 1 && selectedPersainDate.day < 12)
-    //   month = _addMonthsToMonthDate(widget.firstDate, index + 1);
+    if (selectedPersainDate.day >= 1 && selectedPersainDate.day < 12) {
+      month = _addMonthsToMonthDate(widget.firstDate, index + 1);
+    }
 
     return CalendarDayPicker(
       selectedDate: widget.selectedDate,
@@ -643,7 +644,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
                     ? null
                     : '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}',
                 onPressed:
-                _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+                    _isDisplayingFirstMonth ? null : _handlePreviousMonth,
               ),
             ),
           ),

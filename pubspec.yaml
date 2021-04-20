@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
   jiffy: ^4.1.0
-  persian_date: ^0.1.5
 
 dev_dependencies:
   flutter_test:

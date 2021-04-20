@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  persian_date: ^0.1.5
   jalali_table_calendar:
     path: ../
 
