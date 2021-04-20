@@ -1,8 +1,9 @@
 # jalali Table Calendar
 
+if you have any issue or any suggestion you could contact a
 Calendar , DatePicker and Date Converter For Persian Date(Jalali/Shamsi date) with holidays
 
-Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jalali_calendar) package Developed by javad zobeidi
+Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jalali_calendar) package
 
 ![](https://i.ibb.co/Qb1Thp7/Screenshot-20210420-214031.png)</br></br>
 ![](https://github.com/irdeveloper89/jalali_calendar/blob/master/screenshots/screenshots.gif)
