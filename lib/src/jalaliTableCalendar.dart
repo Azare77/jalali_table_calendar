@@ -23,6 +23,7 @@ enum DatePickerModeCalendar {
   year,
 }
 
+bool changed = false;
 //callback function when user change day
 typedef void OnDaySelected(DateTime day);
 //callback function for create marker
@@ -425,6 +426,7 @@ class CalendarMonthPicker extends StatefulWidget {
     @required this.onChanged,
     @required this.firstDate,
     @required this.lastDate,
+    @required this.isSelected,
     this.marker,
     this.events,
     this.selectableDayPredicate,
@@ -441,6 +443,9 @@ class CalendarMonthPicker extends StatefulWidget {
   /// `Map` of events.
   /// Each `DateTime` inside this `Map` should get its own `List` of objects (i.e. events).
   final Map<DateTime, List> events;
+
+  /// initialize  calendar for month
+  final bool isSelected;
 
   /// The currently selected date.
   ///
@@ -540,13 +545,19 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
   }
 
   Widget _buildItems(BuildContext context, int index) {
-    DateTime month = widget.selectedDate;
+    DateTime month = _addMonthsToMonthDate(widget.firstDate, index);
 
     final PersianDate selectedPersainDate = PersianDate.pDate(
         gregorian: widget.selectedDate.toString()); // To Edit Month Displaye
 
-    if (selectedPersainDate.day >= 1 && selectedPersainDate.day < 12) {
+    if (selectedPersainDate.day >= 1 &&
+        selectedPersainDate.day < 12 &&
+        !widget.isSelected) {
       month = _addMonthsToMonthDate(widget.firstDate, index + 1);
+    }
+    if (!widget.isSelected && !changed) {
+      changed = true;
+      _handleNextMonth();
     }
 
     return CalendarDayPicker(
@@ -562,8 +573,8 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     );
   }
 
-  void _handleNextMonth() {
-    if (!_isDisplayingLastMonth) {
+  void _handleNextMonth() async {
+    if (await !_isDisplayingLastMonth) {
       SemanticsService.announce(
           localizations.formatMonthYear(_nextMonthDate), textDirection);
       _dayPickerController.nextPage(
@@ -859,6 +870,7 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
   }
 
   DateTime _selectedDate;
+  bool isSelected = false;
   DatePickerModeCalendar _mode;
   final GlobalKey _pickerKey = GlobalKey();
 
@@ -902,6 +914,7 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
     _vibrate();
     setState(() {
       _selectedDate = value;
+      isSelected = true;
     });
   }
 
@@ -914,6 +927,7 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
           selectedDate: _selectedDate,
           onChanged: _handleDayChanged,
           marker: widget.marker,
+          isSelected: isSelected,
           events: widget.events,
           firstDate: widget.firstDate,
           lastDate: widget.lastDate,
@@ -949,7 +963,7 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
       }
       return null;
     });
-
+    _handleDayChanged(widget.initialDate);
     return calendar;
   }
 }

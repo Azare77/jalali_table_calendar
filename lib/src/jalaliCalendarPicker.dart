@@ -27,6 +27,8 @@ enum DatePickerMode {
   year,
 }
 
+bool calendarChanged = false;
+
 const double _kDatePickerHeaderPortraitHeight = 100.0;
 const double _kDatePickerHeaderLandscapeWidth = 168.0;
 
@@ -560,6 +562,7 @@ class MonthPicker extends StatefulWidget {
     @required this.onChanged,
     @required this.firstDate,
     @required this.lastDate,
+    @required this.isSelected,
     this.selectableDayPredicate,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
@@ -575,6 +578,8 @@ class MonthPicker extends StatefulWidget {
 
   /// Called when the user picks a month.
   final ValueChanged<DateTime> onChanged;
+  /// initialize  calendar for month
+  final bool isSelected;
 
   /// The earliest date the user is permitted to pick.
   final DateTime firstDate;
@@ -666,13 +671,21 @@ class _MonthPickerState extends State<MonthPicker>
   }
 
   Widget _buildItems(BuildContext context, int index) {
-    DateTime month = widget.selectedDate;
+    DateTime month = _addMonthsToMonthDate(widget.firstDate, index);
 
     final PersianDate selectedPersainDate = PersianDate.pDate(
         gregorian: widget.selectedDate.toString()); // To Edit Month Displaye
 
-    if (selectedPersainDate.day >= 1 && selectedPersainDate.day < 12) {
+    if (selectedPersainDate.day >= 1 &&
+        selectedPersainDate.day < 12 &&
+        !widget.isSelected&& !calendarChanged) {
+      print(calendarChanged);
       month = _addMonthsToMonthDate(widget.firstDate, index + 1);
+    }
+    if (!calendarChanged&&!widget.isSelected) {
+      // print(calendarChanged);
+      calendarChanged = true;
+      _handleNextMonth();
     }
     return DayPicker(
       selectedDate: widget.selectedDate,
@@ -685,8 +698,8 @@ class _MonthPickerState extends State<MonthPicker>
     );
   }
 
-  void _handleNextMonth() {
-    if (!_isDisplayingLastMonth) {
+  void _handleNextMonth() async{
+    if (await !_isDisplayingLastMonth) {
       SemanticsService.announce(
           localizations.formatMonthYear(_nextMonthDate), textDirection);
       _dayPickerController.nextPage(
@@ -992,6 +1005,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
 
   DateTime _selectedDate;
   DatePickerMode _mode;
+  bool isSelected=false;
   final GlobalKey _pickerKey = GlobalKey();
 
   void _vibrate() {
@@ -1033,6 +1047,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
     _vibrate();
     setState(() {
       _selectedDate = value;
+      isSelected=true;
     });
   }
 
@@ -1103,6 +1118,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           key: _pickerKey,
           selectedDate: _selectedDate,
           onChanged: _handleDayChanged,
+          isSelected: isSelected,
           firstDate: widget.firstDate,
           lastDate: widget.lastDate,
           selectableDayPredicate: widget.selectableDayPredicate,
@@ -1198,6 +1214,8 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       return null;
     }));
 
+
+    _handleDayChanged(widget.initialDate);
     return Theme(
       data: theme.copyWith(
         dialogBackgroundColor: Colors.transparent,
