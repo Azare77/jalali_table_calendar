@@ -23,7 +23,7 @@ enum DatePickerModeCalendar {
   year,
 }
 
-bool changed = false;
+bool calendarInitialized = false;
 //callback function when user change day
 typedef void OnDaySelected(DateTime day);
 //callback function for create marker
@@ -426,7 +426,6 @@ class CalendarMonthPicker extends StatefulWidget {
     @required this.onChanged,
     @required this.firstDate,
     @required this.lastDate,
-    @required this.isSelected,
     this.marker,
     this.events,
     this.selectableDayPredicate,
@@ -443,9 +442,6 @@ class CalendarMonthPicker extends StatefulWidget {
   /// `Map` of events.
   /// Each `DateTime` inside this `Map` should get its own `List` of objects (i.e. events).
   final Map<DateTime, List> events;
-
-  /// initialize  calendar for month
-  final bool isSelected;
 
   /// The currently selected date.
   ///
@@ -551,15 +547,14 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
         gregorian: widget.selectedDate.toString()); // To Edit Month Displaye
 
     if (selectedPersainDate.day >= 1 &&
-        selectedPersainDate.day < 12 &&
-        !widget.isSelected) {
+        selectedPersainDate.day < 12 && !calendarInitialized) {
       month = _addMonthsToMonthDate(widget.firstDate, index + 1);
-    }
-    if (!widget.isSelected && !changed) {
-      changed = true;
-      _handleNextMonth();
+      _handleNextMonth(initialized:false);
     }
 
+    // if (!widget.isSelected && !changed) {
+    // }
+    calendarInitialized = true;
     return CalendarDayPicker(
       selectedDate: widget.selectedDate,
       currentDate: _todayDate,
@@ -573,12 +568,12 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     );
   }
 
-  void _handleNextMonth() async {
+  void _handleNextMonth({initialized=true}) async {
     if (await !_isDisplayingLastMonth) {
       SemanticsService.announce(
           localizations.formatMonthYear(_nextMonthDate), textDirection);
       _dayPickerController.nextPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+          duration: initialized?_kMonthScrollDuration:Duration(milliseconds: 1), curve: Curves.ease);
     }
   }
 
@@ -870,7 +865,6 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
   }
 
   DateTime _selectedDate;
-  bool isSelected = false;
   DatePickerModeCalendar _mode;
   final GlobalKey _pickerKey = GlobalKey();
 
@@ -914,7 +908,6 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
     _vibrate();
     setState(() {
       _selectedDate = value;
-      isSelected = true;
     });
   }
 
@@ -927,7 +920,6 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
           selectedDate: _selectedDate,
           onChanged: _handleDayChanged,
           marker: widget.marker,
-          isSelected: isSelected,
           events: widget.events,
           firstDate: widget.firstDate,
           lastDate: widget.lastDate,
@@ -963,7 +955,7 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
       }
       return null;
     });
-    _handleDayChanged(widget.initialDate);
+    // _handleDayChanged(widget.initialDate);
     return calendar;
   }
 }

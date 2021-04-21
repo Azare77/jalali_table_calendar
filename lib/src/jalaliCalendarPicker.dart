@@ -27,7 +27,7 @@ enum DatePickerMode {
   year,
 }
 
-bool calendarChanged = false;
+bool calendarPickerInitialized = false;
 
 const double _kDatePickerHeaderPortraitHeight = 100.0;
 const double _kDatePickerHeaderLandscapeWidth = 168.0;
@@ -48,7 +48,7 @@ const double _kDatePickerLandscapeHeight =
 
 // Shows the selected date in large font and toggles between year and day mode
 class _DatePickerHeader extends StatelessWidget {
-  const  _DatePickerHeader({
+  const _DatePickerHeader({
     Key key,
     @required this.selectedDate,
     @required this.mode,
@@ -562,7 +562,6 @@ class MonthPicker extends StatefulWidget {
     @required this.onChanged,
     @required this.firstDate,
     @required this.lastDate,
-    @required this.isSelected,
     this.selectableDayPredicate,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
@@ -578,8 +577,6 @@ class MonthPicker extends StatefulWidget {
 
   /// Called when the user picks a month.
   final ValueChanged<DateTime> onChanged;
-  /// initialize  calendar for month
-  final bool isSelected;
 
   /// The earliest date the user is permitted to pick.
   final DateTime firstDate;
@@ -678,15 +675,12 @@ class _MonthPickerState extends State<MonthPicker>
 
     if (selectedPersainDate.day >= 1 &&
         selectedPersainDate.day < 12 &&
-        !widget.isSelected&& !calendarChanged) {
-      print(calendarChanged);
+        !calendarPickerInitialized) {
       month = _addMonthsToMonthDate(widget.firstDate, index + 1);
+      _handleNextMonth(initialized: false);
     }
-    if (!calendarChanged&&!widget.isSelected) {
-      // print(calendarChanged);
-      calendarChanged = true;
-      _handleNextMonth();
-    }
+    calendarPickerInitialized = true;
+
     return DayPicker(
       selectedDate: widget.selectedDate,
       currentDate: _todayDate,
@@ -698,12 +692,14 @@ class _MonthPickerState extends State<MonthPicker>
     );
   }
 
-  void _handleNextMonth() async{
+  void _handleNextMonth({initialized = true}) async {
     if (await !_isDisplayingLastMonth) {
       SemanticsService.announce(
           localizations.formatMonthYear(_nextMonthDate), textDirection);
       _dayPickerController.nextPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+          duration:
+              initialized ? _kMonthScrollDuration : Duration(milliseconds: 1),
+          curve: Curves.ease);
     }
   }
 
@@ -1005,7 +1001,6 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
 
   DateTime _selectedDate;
   DatePickerMode _mode;
-  bool isSelected=false;
   final GlobalKey _pickerKey = GlobalKey();
 
   void _vibrate() {
@@ -1047,7 +1042,6 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
     _vibrate();
     setState(() {
       _selectedDate = value;
-      isSelected=true;
     });
   }
 
@@ -1118,7 +1112,6 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           key: _pickerKey,
           selectedDate: _selectedDate,
           onChanged: _handleDayChanged,
-          isSelected: isSelected,
           firstDate: widget.firstDate,
           lastDate: widget.lastDate,
           selectableDayPredicate: widget.selectableDayPredicate,
@@ -1214,8 +1207,6 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       return null;
     }));
 
-
-    _handleDayChanged(widget.initialDate);
     return Theme(
       data: theme.copyWith(
         dialogBackgroundColor: Colors.transparent,
@@ -1287,7 +1278,7 @@ Future<String> jalaliCalendarPicker({
       initialDatePickerMode != null, 'initialDatePickerMode must not be null');
   assert(context != null);
   assert(debugCheckHasMaterialLocalizations(context));
-
+  calendarPickerInitialized = false;
   Widget child = _DatePickerDialog(
     initialDate: initialDate,
     firstDate: firstDate,
