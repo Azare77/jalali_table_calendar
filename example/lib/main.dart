@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:jalali_table_calendar/jalali_table_calendar.dart';
-import 'package:persian_date/persian_date.dart';
+import 'package:persian_date/persian_date.dart' as pDate;
 
 void main() {
   runApp(new MaterialApp(
@@ -17,7 +17,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _State extends State<MyApp> {
-  PersianDate persianDate = PersianDate(format: "yyyy/mm/dd  \n DD  , d  MM  ");
+  pDate.PersianDate persianDate =
+      pDate.PersianDate(format: "yyyy/mm/dd  \n DD  , d  MM  ");
   String _datetime = '';
   String _format = 'yyyy-mm-dd';
   String _value = '';
@@ -25,7 +26,6 @@ class _State extends State<MyApp> {
   DateTime selectedDate = DateTime.now();
 
   Future _selectDate() async {
-
     String picked = await jalaliCalendarPicker(
         context: context,
         convertToGregorian: false,
@@ -59,13 +59,13 @@ class _State extends State<MyApp> {
                         context: context,
                         // add the events for each day
                         events: {
-                          DateTime(2021,4,15):['sample event',66546],
-                          DateTime(2021,4,14):[6,5,465,1,66546],
-                          DateTime(2021,4,18):[6,5,465,1,66546],
-                          DateTime(2021,4,19):[6,5,465,1,66546],
+                          DateTime(2021, 4, 15): ['sample event', 66546],
+                          DateTime(2021, 4, 14): [6, 5, 465, 1, 66546],
+                          DateTime(2021, 4, 18): [6, 5, 465, 1, 66546],
+                          DateTime(2021, 4, 19): [6, 5, 465, 1, 66546],
                         },
                         //make marker for every day that have some events
-                        marker: (date,events){
+                        marker: (date, events) {
                           return Positioned(
                             top: -4,
                             left: 0,
@@ -123,7 +123,13 @@ class _State extends State<MyApp> {
   }
 
   /// Display date picker.
-  void _showDatePicker() {
+  void _showDatePicker() async {
+    await showDialog(
+        context: context,
+        builder: (context) => DateRangePickerDialog(
+              firstDate: DateTime.now().subtract(Duration(days: 3650)),
+              lastDate: DateTime.now(),
+            ));
     final bool showTitleActions = false;
     DatePicker.showDatePicker(context,
         minYear: 1300,
@@ -140,14 +146,14 @@ class _State extends State<MyApp> {
           style: TextStyle(color: Colors.cyan),
         ),
         dateFormat: _format, onChanged: (year, month, day) {
-          if (!showTitleActions) {
-            _changeDatetime(year, month, day);
-          }
-        }, onConfirm: (year, month, day) {
-          _changeDatetime(year, month, day);
-          _valuePiker =
+      if (!showTitleActions) {
+        _changeDatetime(year, month, day);
+      }
+    }, onConfirm: (year, month, day) {
+      _changeDatetime(year, month, day);
+      _valuePiker =
           " تاریخ ترکیبی : $_datetime  \n سال : $year \n  ماه :   $month \n  روز :  $day";
-        });
+    });
   }
 
   void _changeDatetime(int year, int month, int day) {

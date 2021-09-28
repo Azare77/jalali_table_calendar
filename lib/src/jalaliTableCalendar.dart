@@ -33,7 +33,7 @@ const double _kDatePickerHeaderPortraitHeight = 100.0;
 const double _kDatePickerHeaderLandscapeWidth = 168.0;
 
 const Duration _kMonthScrollDuration = Duration(milliseconds: 200);
-const double _kDayPickerRowHeight = 42.0;
+const double _kDayPickerRowHeight = 50.0;
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
 const double _kMaxDayPickerHeight =
@@ -300,7 +300,7 @@ class CalendarDayPicker extends StatelessWidget {
                 !selectableDayPredicate(dayToBuild));
 
         BoxDecoration decoration;
-        TextStyle itemStyle = themeData.textTheme.body1;
+        TextStyle itemStyle = themeData.textTheme.bodyText1;
 
         final bool isSelectedDay =
             selectedPersainDate.year == getPearData.year &&
@@ -308,21 +308,21 @@ class CalendarDayPicker extends StatelessWidget {
                 selectedPersainDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.accentTextTheme.body2;
+          itemStyle = themeData.accentTextTheme.bodyText2;
           decoration = BoxDecoration(
               color: themeData.accentColor, shape: BoxShape.circle);
         } else if (disabled) {
-          itemStyle = themeData.textTheme.body1
+          itemStyle = themeData.textTheme.bodyText1
               .copyWith(color: themeData.disabledColor);
         } else if (currentPDate.year == getPearData.year &&
             currentPDate.month == getPearData.month &&
             currentPDate.day == day) {
           // The current day gets a different text color.
           itemStyle =
-              themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+              themeData.textTheme.bodyText2.copyWith(color: themeData.accentColor);
         } else if (getHolidy.isHoliday) {
           // The current day gets a different text color.
-          itemStyle = themeData.textTheme.body2.copyWith(color: Colors.red);
+          itemStyle = themeData.textTheme.bodyText2.copyWith(color: Colors.red);
         }
 
         // prepare to events to return to view
@@ -346,7 +346,7 @@ class CalendarDayPicker extends StatelessWidget {
                       '${localizations.formatDecimal(day)}, ${localizations.formatFullDate(dayToBuild)}',
                   selected: isSelectedDay,
                   child: ExcludeSemantics(
-                    child: Text(localizations.formatDecimal(day),
+                    child: Text(day.toString(),
                         style: itemStyle),
                   ),
                 ),
@@ -385,7 +385,7 @@ class CalendarDayPicker extends StatelessWidget {
                   child: ExcludeSemantics(
                     child: Text(
                       "${pdate.monthname}  ${pdate.year}",
-                      style: themeData.textTheme.subhead,
+                      style: themeData.textTheme.headline5,
                     ),
                   ),
                 ),
@@ -680,6 +680,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
   void dispose() {
     _timer?.cancel();
     _dayPickerController?.dispose();
+    calendarInitialized=false;
     super.dispose();
   }
 }
@@ -760,7 +761,7 @@ class _CalendarYearPickerState extends State<CalendarYearPicker> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     final ThemeData themeData = Theme.of(context);
-    final TextStyle style = themeData.textTheme.body1;
+    final TextStyle style = themeData.textTheme.bodyText1;
 
     return ListView.builder(
       controller: scrollController,
@@ -773,7 +774,7 @@ class _CalendarYearPickerState extends State<CalendarYearPicker> {
             DateTime(year, widget.selectedDate.month, widget.selectedDate.day);
         var pYear = PersianDate.pDate(gregorian: dateee.toString());
         final TextStyle itemStyle = isSelected
-            ? themeData.textTheme.headline
+            ? themeData.textTheme.headline1
                 .copyWith(color: themeData.accentColor)
             : style;
         return InkWell(

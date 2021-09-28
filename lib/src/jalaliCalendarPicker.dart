@@ -88,10 +88,10 @@ class _DatePickerHeader extends StatelessWidget {
         yearColor = mode == DatePickerMode.year ? Colors.white : Colors.white70;
         break;
     }
-    final TextStyle dayStyle = headerTextTheme.display1
+    final TextStyle dayStyle = headerTextTheme.headline5
         .copyWith(color: dayColor, height: 1.4, fontSize: 23.0);
     final TextStyle yearStyle =
-        headerTextTheme.subhead.copyWith(color: yearColor, height: 1.4);
+        headerTextTheme.headline5.copyWith(color: yearColor, height: 1.4);
 
     Color backgroundColor;
     switch (themeData.brightness) {
@@ -451,7 +451,7 @@ class DayPicker extends StatelessWidget {
                 !selectableDayPredicate(dayToBuild));
 
         BoxDecoration decoration;
-        TextStyle itemStyle = themeData.textTheme.body1;
+        TextStyle itemStyle = themeData.textTheme.bodyText1;
 
         final bool isSelectedDay =
             selectedPersainDate.year == getPearData.year &&
@@ -459,21 +459,21 @@ class DayPicker extends StatelessWidget {
                 selectedPersainDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.accentTextTheme.body2;
+          itemStyle = themeData.accentTextTheme.bodyText2;
           decoration = BoxDecoration(
               color: themeData.accentColor, shape: BoxShape.circle);
         } else if (disabled) {
-          itemStyle = themeData.textTheme.body1
+          itemStyle = themeData.textTheme.bodyText1
               .copyWith(color: themeData.disabledColor);
         } else if (currentPDate.year == getPearData.year &&
             currentPDate.month == getPearData.month &&
             currentPDate.day == day) {
           // The current day gets a different text color.
           itemStyle =
-              themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+              themeData.textTheme.bodyText2.copyWith(color: themeData.accentColor);
         } else if (getHolidy.isHoliday) {
           // The current day gets a different text color.
-          itemStyle = themeData.textTheme.body2.copyWith(color: Colors.red);
+          itemStyle = themeData.textTheme.bodyText2.copyWith(color: Colors.red);
         }
         Widget dayWidget = Container(
           decoration: decoration,
@@ -521,7 +521,7 @@ class DayPicker extends StatelessWidget {
                   child: ExcludeSemantics(
                     child: Text(
                       "${pdate.monthname}  ${pdate.year}",
-                      style: themeData.textTheme.subhead,
+                      style: themeData.textTheme.headline6,
                     ),
                   ),
                 ),
@@ -890,7 +890,7 @@ class _YearPickerState extends State<YearPicker> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     final ThemeData themeData = Theme.of(context);
-    final TextStyle style = themeData.textTheme.body1;
+    final TextStyle style = themeData.textTheme.bodyText1;
 
     return ListView.builder(
       controller: scrollController,
@@ -903,7 +903,7 @@ class _YearPickerState extends State<YearPicker> {
             DateTime(year, widget.selectedDate.month, widget.selectedDate.day);
         var pYear = PersianDate.pDate(gregorian: dateee.toString());
         final TextStyle itemStyle = isSelected
-            ? themeData.textTheme.headline
+            ? themeData.textTheme.headline5
                 .copyWith(color: themeData.accentColor)
             : style;
         return InkWell(

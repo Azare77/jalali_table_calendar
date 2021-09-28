@@ -12,7 +12,7 @@ Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jal
 
 ## Import this line in Flutter pubspec.yaml
 ```dart
-jalali_table_calendar: ^1.0.1
+jalali_table_calendar: ^1.0.2
 ```
 ## To  Use Calendar Or DatePicker  , Import this line to your dart file
 ```dart
