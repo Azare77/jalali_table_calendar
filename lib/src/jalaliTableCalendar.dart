@@ -29,9 +29,6 @@ typedef void OnDaySelected(DateTime day);
 //callback function for create marker
 typedef MarkerBuilder = Widget Function(DateTime date, List events);
 
-const double _kDatePickerHeaderPortraitHeight = 100.0;
-const double _kDatePickerHeaderLandscapeWidth = 168.0;
-
 const Duration _kMonthScrollDuration = Duration(milliseconds: 200);
 const double _kDayPickerRowHeight = 50.0;
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
@@ -880,20 +877,6 @@ class _DatePickerCalendarState extends State<_DatePickerCalendar> {
       default:
         break;
     }
-  }
-
-  void _handleModeChanged(DatePickerModeCalendar mode) {
-    _vibrate();
-    setState(() {
-      _mode = mode;
-      if (_mode == DatePickerModeCalendar.day) {
-        SemanticsService.announce(
-            localizations.formatMonthYear(_selectedDate), textDirection);
-      } else {
-        SemanticsService.announce(
-            localizations.formatYear(_selectedDate), textDirection);
-      }
-    });
   }
 
   void _handleYearChanged(DateTime value) {

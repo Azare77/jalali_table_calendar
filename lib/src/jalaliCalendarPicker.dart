@@ -1139,11 +1139,11 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
     );
     final Widget actions = ButtonBar(
       children: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text("لغو"),
           onPressed: _handleCancel,
         ),
-        FlatButton(
+        TextButton(
           child: Text("تایید"),
           onPressed: _handleOk,
         ),

@@ -429,7 +429,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
     String monthAppend = "";
     String dayAppend = "";
 
-    List<Widget> pickers = new List<Widget>();
+    List<Widget> pickers = [];
     List<String> formatSplit = widget.dateFormat.split('-');
     for (int i = 0; i < formatSplit.length; i++) {
       var format = formatSplit[i];
@@ -491,14 +491,14 @@ class _DatePickerState extends State<_DatePickerComponent> {
         children: <Widget>[
           Container(
             height: _kDatePickerTitleHeight,
-            child: FlatButton(
+            child: TextButton(
               child: cancelWidget,
               onPressed: () => Navigator.pop(context),
             ),
           ),
           Container(
             height: _kDatePickerTitleHeight,
-            child: FlatButton(
+            child: TextButton(
               child: confirmWidget,
               onPressed: () {
                 if (widget.route.onConfirm != null) {
