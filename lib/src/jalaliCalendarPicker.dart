@@ -693,7 +693,7 @@ class _MonthPickerState extends State<MonthPicker>
   }
 
   void _handleNextMonth({initialized = true}) async {
-    if (await !_isDisplayingLastMonth) {
+    if (!_isDisplayingLastMonth) {
       SemanticsService.announce(
           localizations.formatMonthYear(_nextMonthDate), textDirection);
       _dayPickerController.nextPage(
