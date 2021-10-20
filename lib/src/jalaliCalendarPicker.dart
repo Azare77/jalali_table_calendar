@@ -459,9 +459,9 @@ class DayPicker extends StatelessWidget {
                 selectedPersianDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.accentTextTheme.bodyText2;
+          itemStyle = themeData.textTheme.bodyText2;
           decoration = BoxDecoration(
-              color: themeData.accentColor, shape: BoxShape.circle);
+              color: themeData.colorScheme.secondary, shape: BoxShape.circle);
         } else if (disabled) {
           itemStyle = themeData.textTheme.bodyText1
               .copyWith(color: themeData.disabledColor);
@@ -469,8 +469,8 @@ class DayPicker extends StatelessWidget {
             currentPDate.month == getPearData.month &&
             currentPDate.day == day) {
           // The current day gets a different text color.
-          itemStyle =
-              themeData.textTheme.bodyText2.copyWith(color: themeData.accentColor);
+          itemStyle = themeData.textTheme.bodyText2
+              .copyWith(color: themeData.colorScheme.secondary);
         } else if (getHoliday.isHoliday) {
           // The current day gets a different text color.
           itemStyle = themeData.textTheme.bodyText2.copyWith(color: Colors.red);
@@ -904,7 +904,7 @@ class _YearPickerState extends State<YearPicker> {
         var pYear = PersianDate.pDate(gregorian: date.toString());
         final TextStyle itemStyle = isSelected
             ? themeData.textTheme.headline5
-                .copyWith(color: themeData.accentColor)
+                .copyWith(color: themeData.colorScheme.secondary)
             : style;
         return InkWell(
           key: ValueKey<int>(year),
