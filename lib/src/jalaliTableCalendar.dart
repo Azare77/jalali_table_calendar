@@ -172,9 +172,9 @@ class CalendarDayPicker extends StatelessWidget {
 
   List<Widget> _getDayHeaders() {
     final List<Widget> result = <Widget>[];
-    for (String dayHader in dayH) {
+    for (String dayHeader in dayH) {
       result.add(ExcludeSemantics(
-        child: Center(child: Text(dayHader)),
+        child: Center(child: Text(dayHeader)),
       ));
     }
     return result;
@@ -199,8 +199,8 @@ class CalendarDayPicker extends StatelessWidget {
   static const List<int> _kabise = <int>[1, 5, 9, 13, 17, 22, 26, 30];
 
   static int getDaysInMonth(int year, int month) {
-    var modeyear = year % 33;
-    if (month == 12) return _kabise.indexOf(modeyear) != -1 ? 30 : 29;
+    var modeYear = year % 33;
+    if (month == 12) return _kabise.indexOf(modeYear) != -1 ? 30 : 29;
 
     return _daysInMonth[month - 1];
   }
@@ -258,7 +258,7 @@ class CalendarDayPicker extends StatelessWidget {
 
     final PersianDate getPearData =
         PersianDate.pDate(gregorian: displayedMonth.toString());
-    final PersianDate selectedPersainDate =
+    final PersianDate selectedPersianDate =
         PersianDate.pDate(gregorian: selectedDate.toString());
 
     final PersianDate currentPDate =
@@ -274,14 +274,14 @@ class CalendarDayPicker extends StatelessWidget {
 
     var pMonth = _digits(jtgData[1], 2);
 
-    PersianDate pdate =
+    PersianDate pDate =
         PersianDate.pDate(gregorian: "${jtgData[0]}-$pMonth-${jtgData[2]}");
-    var daysInMonth = getDaysInMonth(pdate.year, pdate.month);
-    var startday = dayShort.indexOf(pdate.weekdayname);
+    var daysInMonth = getDaysInMonth(pDate.year, pDate.month);
+    var startDay = dayShort.indexOf(pDate.weekDayName);
 
     labels.addAll(_getDayHeaders());
     for (int i = 0; true; i += 1) {
-      final int day = i - startday + 1;
+      final int day = i - startDay + 1;
       if (day > daysInMonth) break;
       if (day < 1) {
         labels.add(Container());
@@ -291,7 +291,7 @@ class CalendarDayPicker extends StatelessWidget {
             getPearData.year, getPearData.month, int.parse(pDay));
         final DateTime dayToBuild =
             DateTime(jtgData[0], jtgData[1], jtgData[2]);
-        final PersianDate getHolidy =
+        final PersianDate getHoliday =
             PersianDate.pDate(gregorian: dayToBuild.toString());
 
         final bool disabled = dayToBuild.isAfter(lastDate) ||
@@ -303,9 +303,9 @@ class CalendarDayPicker extends StatelessWidget {
         TextStyle itemStyle = themeData.textTheme.bodyText1;
 
         final bool isSelectedDay =
-            selectedPersainDate.year == getPearData.year &&
-                selectedPersainDate.month == getPearData.month &&
-                selectedPersainDate.day == day;
+            selectedPersianDate.year == getPearData.year &&
+                selectedPersianDate.month == getPearData.month &&
+                selectedPersianDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           itemStyle = themeData.accentTextTheme.bodyText2;
@@ -320,7 +320,7 @@ class CalendarDayPicker extends StatelessWidget {
           // The current day gets a different text color.
           itemStyle =
               themeData.textTheme.bodyText2.copyWith(color: themeData.accentColor);
-        } else if (getHolidy.isHoliday) {
+        } else if (getHoliday.isHoliday) {
           // The current day gets a different text color.
           itemStyle = themeData.textTheme.bodyText2.copyWith(color: Colors.red);
         }
@@ -384,7 +384,7 @@ class CalendarDayPicker extends StatelessWidget {
                 child: Center(
                   child: ExcludeSemantics(
                     child: Text(
-                      "${pdate.monthname}  ${pdate.year}",
+                      "${pDate.monthName}  ${pDate.year}",
                       style: themeData.textTheme.headline5,
                     ),
                   ),
@@ -543,11 +543,11 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
   Widget _buildItems(BuildContext context, int index) {
     DateTime month = _addMonthsToMonthDate(widget.firstDate, index);
 
-    final PersianDate selectedPersainDate = PersianDate.pDate(
-        gregorian: widget.selectedDate.toString()); // To Edit Month Displaye
+    final PersianDate selectedPersianDate = PersianDate.pDate(
+        gregorian: widget.selectedDate.toString()); // To Edit Month Display
 
-    if (selectedPersainDate.day >= 1 &&
-        selectedPersainDate.day < 12 && !calendarInitialized) {
+    if (selectedPersianDate.day >= 1 &&
+        selectedPersianDate.day < 12 && !calendarInitialized) {
       month = _addMonthsToMonthDate(widget.firstDate, index + 1);
       _handleNextMonth(initialized:false);
     }
@@ -770,9 +770,9 @@ class _CalendarYearPickerState extends State<CalendarYearPicker> {
       itemBuilder: (BuildContext context, int index) {
         final int year = widget.firstDate.year + index;
         final bool isSelected = year == widget.selectedDate.year;
-        var dateee =
+        var date =
             DateTime(year, widget.selectedDate.month, widget.selectedDate.day);
-        var pYear = PersianDate.pDate(gregorian: dateee.toString());
+        var pYear = PersianDate.pDate(gregorian: date.toString());
         final TextStyle itemStyle = isSelected
             ? themeData.textTheme.headline1
                 .copyWith(color: themeData.accentColor)
@@ -810,7 +810,7 @@ class _DatePickerCalendar extends StatefulWidget {
       this.onDaySelected,
       this.marker,
       this.events,
-      this.hore24Format})
+      this.hour24Format})
       : super(key: key);
 
   final DateTime initialDate;
@@ -821,7 +821,7 @@ class _DatePickerCalendar extends StatefulWidget {
   final String selectedFormat;
   final bool convertToGregorian;
   final bool showTimePicker;
-  final bool hore24Format;
+  final bool hour24Format;
   final TimeOfDay initialTime;
 
   //day marker
@@ -1004,7 +1004,7 @@ Widget jalaliCalendar({
   TextDirection textDirection = TextDirection.rtl,
   bool convertToGregorian = false,
   bool showTimePicker = false,
-  bool hore24Format = false,
+  bool hour24Format = false,
   TimeOfDay initialTime,
   MarkerBuilder marker,
   Map<DateTime, List> events,
@@ -1034,7 +1034,7 @@ Widget jalaliCalendar({
     selectableDayPredicate: selectableDayPredicate,
     initialDatePickerMode: initialDatePickerMode,
     selectedFormat: selectedFormat ?? "yyyy-mm-dd HH:nn:ss",
-    hore24Format: hore24Format,
+    hour24Format: hour24Format,
     showTimePicker: showTimePicker,
     marker: marker,
     events: events,

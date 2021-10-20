@@ -293,8 +293,8 @@ class _DatePickerState extends State<_DatePickerComponent> {
 
   int _calcDateCount() {
     if (_currentMonth == 12) {
-      var modeyear = _currentYear % 33;
-      if (_kabise.indexOf(modeyear) != -1) {
+      var modeYear = _currentYear % 33;
+      if (_kabise.indexOf(modeYear) != -1) {
         return 30;
       }
       return 29;

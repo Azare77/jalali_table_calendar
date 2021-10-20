@@ -61,12 +61,12 @@ class PersianDate {
   String _getDate = '';
   String _getNow = '';
 
-  String _defualtVal = "yyyy-mm-dd hh:nn:ss SSS";
+  String _defaultVal = "yyyy-mm-dd hh:nn:ss SSS";
 
-  PersianDate.pDate({String defualtFormat, String gregorian}) {
+  PersianDate.pDate({String defaultFormat, String gregorian}) {
     var now;
 
-    if (defualtFormat != null) this._defualtVal = defualtFormat;
+    if (defaultFormat != null) this._defaultVal = defaultFormat;
 
     if (gregorian != null) {
       now = DateTime.parse(gregorian);
@@ -80,14 +80,14 @@ class PersianDate {
       this.setSecond = now.second;
       this.setMicrosecond = now.microsecond;
       this.setMillisecond = now.millisecond;
-      _getDate = _toFormat(_defualtVal);
+      _getDate = _toFormat(_defaultVal);
     } else {
       _getDate = _now();
     }
   }
 
   PersianDate([String format]) {
-    if (format != null) _defualtVal = format;
+    if (format != null) _defaultVal = format;
 
     _getNow = _now();
     _getDate = _now();
@@ -110,7 +110,7 @@ class PersianDate {
     this.setMicrosecond = now.microsecond;
     this.setMillisecond = now.millisecond;
 
-    return _toFormat(_defualtVal);
+    return _toFormat(_defaultVal);
   }
 
   List<String> monthShort = const <String>[
@@ -210,12 +210,12 @@ class PersianDate {
       jm = 7 + ((days - 186) ~/ 30);
       jd = 1 + (days - 186) % 30;
     }
-    var persionDate;
+    var persianDate;
     if (separator == null)
-      persionDate = [jY, jm, jd];
+      persianDate = [jY, jm, jd];
     else
-      persionDate = "$jY$separator$jm$separator$jd";
-    return persionDate;
+      persianDate = "$jY$separator$jm$separator$jd";
+    return persianDate;
   }
 
   jalaliToGregorian(int y, int m, int d, [String separator]) {
@@ -287,9 +287,9 @@ class PersianDate {
     }
   }
 
-  String get weekdayname => dayLong[weekday - 1];
+  String get weekDayName => dayLong[weekday - 1];
 
-  String get monthname => monthLong[this.month - 1];
+  String get monthName => monthLong[this.month - 1];
 
   int get year => _year;
 
@@ -415,7 +415,7 @@ class PersianDate {
   parseToFormat(String parseDate, [String format]) {
     var parse = DateTime.parse(parseDate);
     var jParse = gregorianToJalali(parse.year, parse.month, parse.day);
-    if (format == null) format = _defualtVal;
+    if (format == null) format = _defaultVal;
 
     String newFormat = format;
 

@@ -30,7 +30,7 @@ class _State extends State<MyApp> {
         context: context,
         convertToGregorian: false,
         showTimePicker: true,
-        hore24Format: true);
+        hour24Format: true);
     if (picked != null) setState(() => _value = picked);
   }
 
