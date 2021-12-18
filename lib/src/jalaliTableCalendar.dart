@@ -303,8 +303,8 @@ class CalendarDayPicker extends StatelessWidget {
                 selectedPersainDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle =
-              themeData.textTheme.bodyText2?.copyWith(color: themeData.scaffoldBackgroundColor);
+          itemStyle = themeData.textTheme.bodyText2
+              ?.copyWith(color: themeData.scaffoldBackgroundColor);
           decoration = BoxDecoration(
               color: themeData.primaryColor, shape: BoxShape.circle);
         } else if (disabled) {

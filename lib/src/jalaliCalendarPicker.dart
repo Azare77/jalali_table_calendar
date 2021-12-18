@@ -53,7 +53,7 @@ class _DatePickerHeader extends StatelessWidget {
     required this.mode,
     required this.onModeChanged,
     required this.orientation,
-  })  : super(key: key);
+  }) : super(key: key);
 
   final DateTime selectedDate;
   final DatePickerMode mode;
@@ -451,7 +451,8 @@ class DayPicker extends StatelessWidget {
                 selectedPersainDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.textTheme.bodyText2?.copyWith(color: themeData.cardColor);
+          itemStyle = themeData.textTheme.bodyText2
+              ?.copyWith(color: themeData.cardColor);
           decoration = BoxDecoration(
               color: themeData.primaryColor, shape: BoxShape.circle);
         } else if (disabled) {
