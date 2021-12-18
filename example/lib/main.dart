@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:jalali_table_calendar/jalali_table_calendar.dart';
 import 'package:persian_date/persian_date.dart' as pDate;
 
