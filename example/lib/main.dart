@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:jalali_table_calendar/jalali_table_calendar.dart';
 import 'package:persian_date/persian_date.dart' as pDate;
 
@@ -34,6 +36,8 @@ class _State extends State<MyApp> {
     if (picked != null) setState(() => _value = picked);
   }
 
+  DateTime today = DateTime.now();
+
   @override
   void initState() {
     super.initState();
@@ -59,10 +63,9 @@ class _State extends State<MyApp> {
                         context: context,
                         // add the events for each day
                         events: {
-                          DateTime(2021, 4, 15): ['sample event', 66546],
-                          DateTime(2021, 4, 14): [6, 5, 465, 1, 66546],
-                          DateTime(2021, 4, 18): [6, 5, 465, 1, 66546],
-                          DateTime(2021, 4, 19): [6, 5, 465, 1, 66546],
+                          today: ['sample event', 66546],
+                          today.add(Duration(days: 1)): [6, 5, 465, 1, 66546],
+                          today.add(Duration(days: 2)): [6, 5, 465, 66546],
                         },
                         //make marker for every day that have some events
                         marker: (date, events) {
@@ -71,10 +74,10 @@ class _State extends State<MyApp> {
                             left: 0,
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Theme.of(context).textSelectionColor,
+                                  color: Colors.blue[200],
                                   shape: BoxShape.circle),
                               padding: const EdgeInsets.all(6.0),
-                              child: Text(events.length.toString()),
+                              child: Text((events?.length).toString()),
                             ),
                           );
                         },
@@ -84,11 +87,11 @@ class _State extends State<MyApp> {
                     Text('  مبدّل تاریخ و زمان ,‌ تاریخ هجری شمسی '),
                     Text(' تقویم شمسی '),
                     Text('date picker شمسی '),
-                    new RaisedButton(
+                    new ElevatedButton(
                       onPressed: _selectDate,
                       child: new Text('نمایش تقویم'),
                     ),
-                    new RaisedButton(
+                    new ElevatedButton(
                       onPressed: _showDatePicker,
                       child: new Text('نمایش دیت پیکر'),
                     ),

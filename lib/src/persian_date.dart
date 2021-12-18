@@ -49,21 +49,21 @@ const String am = 'am'; // نمایش وقت به صورت کوتاه
 const String AM = 'AM'; // نمایش وقت به صورت کامل
 
 class PersianDate {
-  int _year;
-  int _month;
-  int _day;
-  int _weekday;
-  int _hour;
-  int _minute;
-  int _second;
-  int _millisecond;
-  int _microsecond;
+  int? _year;
+  int? _month;
+  int? _day;
+  int? _weekday;
+  int? _hour;
+  int? _minute;
+  int? _second;
+  int? _millisecond;
+  int? _microsecond;
   String _getDate = '';
   String _getNow = '';
 
   String _defualtVal = "yyyy-mm-dd hh:nn:ss SSS";
 
-  PersianDate.pDate({String defualtFormat, String gregorian}) {
+  PersianDate.pDate({String? defualtFormat, String? gregorian}) {
     var now;
 
     if (defualtFormat != null) this._defualtVal = defualtFormat;
@@ -86,7 +86,7 @@ class PersianDate {
     }
   }
 
-  PersianDate([String format]) {
+  PersianDate([String? format]) {
     if (format != null) _defualtVal = format;
 
     _getNow = _now();
@@ -176,7 +176,7 @@ class PersianDate {
     "1229",
   ];
 
-  gregorianToJalali(int y, int m, int d, [String separator]) {
+  gregorianToJalali(int y, int m, int d, [String? separator]) {
     var sumMonthDay = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
     var jY = 0;
     if (y > 1600) {
@@ -218,7 +218,7 @@ class PersianDate {
     return persionDate;
   }
 
-  jalaliToGregorian(int y, int m, int d, [String separator]) {
+  jalaliToGregorian(int y, int m, int d, [String? separator]) {
     int gY;
     if (y > 979) {
       gY = 1600;
@@ -274,7 +274,7 @@ class PersianDate {
     return gregorianDate;
   }
 
-  parse(String formattedString, [String separator]) {
+  parse(String formattedString, [String? separator]) {
     var parse = DateTime.parse(formattedString);
     if (separator == null) {
       List parseList = gregorianToJalali(parse.year, parse.month, parse.day);
@@ -287,41 +287,41 @@ class PersianDate {
     }
   }
 
-  String get weekdayname => dayLong[weekday - 1];
+  String get weekdayname => dayLong[weekday! - 1];
 
-  String get monthname => monthLong[this.month - 1];
+  String get monthname => monthLong[this.month! - 1];
 
-  int get year => _year;
+  int? get year => _year;
 
   set setYear(int value) {
     _year = value;
   }
 
-  int get month => _month;
+  int? get month => _month;
 
   set setMonth(int value) {
     _month = value;
   }
 
-  int get day => _day;
+  int? get day => _day;
 
   set setDay(int value) {
     _day = value;
   }
 
-  int get weekday => _weekday;
+  int? get weekday => _weekday;
 
-  set setWeekday(int value) {
+  set setWeekday(int? value) {
     _weekday = value;
   }
 
-  int get hour => _hour;
+  int? get hour => _hour;
 
-  set setHour(int value) {
+  set setHour(int? value) {
     _hour = value;
   }
 
-  int get minute => _minute;
+  int? get minute => _minute;
 
   bool get isHoliday {
     if (weekday == 5)
@@ -334,25 +334,25 @@ class PersianDate {
       return false;
   }
 
-  set setMinute(int value) {
+  set setMinute(int? value) {
     _minute = value;
   }
 
-  int get second => _second;
+  int? get second => _second;
 
-  set setSecond(int value) {
+  set setSecond(int? value) {
     _second = value;
   }
 
-  int get microsecond => _microsecond;
+  int? get microsecond => _microsecond;
 
-  set setMicrosecond(int value) {
+  set setMicrosecond(int? value) {
     _microsecond = value;
   }
 
-  int get millisecond => _millisecond;
+  int? get millisecond => _millisecond;
 
-  set setMillisecond(int value) {
+  set setMillisecond(int? value) {
     _millisecond = value;
   }
 
@@ -361,38 +361,38 @@ class PersianDate {
     if (newFormat.indexOf(yyyy) != -1)
       newFormat = newFormat.replaceFirst(yyyy, _digits(this.year, 4));
     if (newFormat.indexOf(yy) != -1)
-      newFormat = newFormat.replaceFirst(yy, _digits(this.year % 100, 2));
+      newFormat = newFormat.replaceFirst(yy, _digits(this.year! % 100, 2));
     if (newFormat.indexOf(mm) != -1)
       newFormat = newFormat.replaceFirst(mm, _digits(this.month, 2));
     if (newFormat.indexOf(m) != -1)
       newFormat = newFormat.replaceFirst(m, this.month.toString());
     if (newFormat.indexOf(MM) != -1)
-      newFormat = newFormat.replaceFirst(MM, monthLong[this.month - 1]);
+      newFormat = newFormat.replaceFirst(MM, monthLong[this.month! - 1]);
     if (newFormat.indexOf(M) != -1)
-      newFormat = newFormat.replaceFirst(M, monthShort[this.month - 1]);
+      newFormat = newFormat.replaceFirst(M, monthShort[this.month! - 1]);
     if (newFormat.indexOf(dd) != -1)
       newFormat = newFormat.replaceFirst(dd, _digits(this.day, 2));
     if (newFormat.indexOf(d) != -1)
       newFormat = newFormat.replaceFirst(d, this.day.toString());
     if (newFormat.indexOf(w) != -1)
-      newFormat = newFormat.replaceFirst(w, ((this.day + 7) ~/ 7).toString());
+      newFormat = newFormat.replaceFirst(w, ((this.day! + 7) ~/ 7).toString());
     if (newFormat.indexOf(DD) != -1)
-      newFormat = newFormat.replaceFirst(DD, dayLong[this.weekday - 1]);
+      newFormat = newFormat.replaceFirst(DD, dayLong[this.weekday! - 1]);
     if (newFormat.indexOf(D) != -1)
-      newFormat = newFormat.replaceFirst(D, dayShort[this.weekday - 1]);
+      newFormat = newFormat.replaceFirst(D, dayShort[this.weekday! - 1]);
     if (newFormat.indexOf(HH) != -1)
       newFormat = newFormat.replaceFirst(HH, _digits(this.hour, 2));
     if (newFormat.indexOf(H) != -1)
       newFormat = newFormat.replaceFirst(H, this.hour.toString());
     if (newFormat.indexOf(hh) != -1)
-      newFormat = newFormat.replaceFirst(hh, _digits(this.hour % 12, 2));
+      newFormat = newFormat.replaceFirst(hh, _digits(this.hour! % 12, 2));
     if (newFormat.indexOf(h) != -1)
-      newFormat = newFormat.replaceFirst(h, (this.hour % 12).toString());
+      newFormat = newFormat.replaceFirst(h, (this.hour! % 12).toString());
     if (newFormat.indexOf(AM) != -1)
       newFormat = newFormat.replaceFirst(
-          AM, this.hour < 12 ? 'قبل از ظهر' : 'بعد از ظهر');
+          AM, this.hour! < 12 ? 'قبل از ظهر' : 'بعد از ظهر');
     if (newFormat.indexOf(am) != -1)
-      newFormat = newFormat.replaceFirst(am, this.hour < 12 ? 'ق.ظ' : 'ب.ظ');
+      newFormat = newFormat.replaceFirst(am, this.hour! < 12 ? 'ق.ظ' : 'ب.ظ');
     if (newFormat.indexOf(nn) != -1)
       newFormat = newFormat.replaceFirst(nn, _digits(this.minute, 2));
     if (newFormat.indexOf(n) != -1)
@@ -412,7 +412,7 @@ class PersianDate {
     return newFormat;
   }
 
-  parseToFormat(String parseDate, [String format]) {
+  parseToFormat(String parseDate, [String? format]) {
     var parse = DateTime.parse(parseDate);
     var jParse = gregorianToJalali(parse.year, parse.month, parse.day);
     if (format == null) format = _defualtVal;
@@ -475,7 +475,7 @@ class PersianDate {
     return newFormat;
   }
 
-  String _digits(int value, int length) {
+  String _digits(int? value, int length) {
     String ret = '$value';
     if (ret.length < length) {
       ret = '0' * (length - ret.length) + ret;

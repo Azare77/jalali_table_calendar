@@ -27,14 +27,15 @@ After import library,  to show the calendar you can use jalaliCalendar or jalali
 
 ## This sample make a Calendar Widget
 ```dart
+DateTime today = DateTime.now();
 jalaliCalendar(
     context: context,
     // add the events for each day
     events: {
         DateTime(2021,4,15):['sample event',66546],
-        DateTime(2021,4,14):[6,5,465,1,66546],
-        DateTime(2021,4,18):[6,5,465,1,66546],
-        DateTime(2021,4,19):[6,5,465,1,66546],
+        today: ['sample event'],
+        today.add(Duration(days: 1)): [6, 5, 465, 1, 66546],
+        today.add(Duration(days: 2)): [6, 5, 465, 66546],
          },
     //make marker for every day that have some events
     marker: (date,events){

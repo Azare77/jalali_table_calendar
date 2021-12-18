@@ -8,3 +8,8 @@
 
 * fix more bugs
 * fix conflicts with new flutter update
+
+## [1.1.0]
+
+* migrate to NullSafety
+* events date can define differently
