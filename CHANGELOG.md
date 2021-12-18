@@ -13,3 +13,7 @@
 
 * migrate to NullSafety
 * events date can define differently
+
+## [1.1.1]
+
+* format code to Pass static analysis
