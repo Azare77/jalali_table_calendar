@@ -47,7 +47,7 @@ class _State extends State<MyApp> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Jalili Table Calendar'),
+        title: new Text('Jalil Table Calendar'),
         centerTitle: true,
       ),
       body: new Container(
@@ -57,7 +57,7 @@ class _State extends State<MyApp> {
               Center(
                 child: Column(
                   children: <Widget>[
-                    jalaliCalendar(
+                    JalaliTableCalendar(
                         context: context,
                         // add the events for each day
                         events: {

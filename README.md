@@ -23,12 +23,12 @@ import 'package:jalali_table_calendar/jalali_table_calendar.dart';
 import 'package:persian_date/persian_date.dart';
 ```
 
-After import library,  to show the calendar you can use jalaliCalendar or jalaliCalendarPicker() method , on the constructor `context` is important
+After import library,  to show the calendar you can use JalaliCalendar or jalaliCalendarPicker() method , on the constructor `context` is important
 
 ## This sample make a Calendar Widget
 ```dart
 DateTime today = DateTime.now();
-jalaliCalendar(
+JalaliCalendar(
     context: context,
     // add the events for each day
     events: {

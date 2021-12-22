@@ -17,3 +17,7 @@
 ## [1.1.1]
 
 * format code to Pass static analysis
+
+## [1.1.2]
+
+* change jalaliTableCalendar to JalaliTableCalendar
