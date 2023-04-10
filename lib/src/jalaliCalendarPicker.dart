@@ -31,7 +31,7 @@ bool calendarPickerInitialized = false;
 const double _kDatePickerHeaderPortraitHeight = 100.0;
 const double _kDatePickerHeaderLandscapeWidth = 168.0;
 
-const Duration _kMonthScrollDuration = Duration(milliseconds: 200);
+const Duration kMonthScrollDuration = Duration(milliseconds: 200);
 const double _kDayPickerRowHeight = 42.0;
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
@@ -690,7 +690,7 @@ class _MonthPickerState extends State<MonthPicker>
           localizations.formatMonthYear(_nextMonthDate), textDirection);
       _dayPickerController!.nextPage(
           duration:
-              initialized ? _kMonthScrollDuration : Duration(milliseconds: 1),
+              initialized ? kMonthScrollDuration : Duration(milliseconds: 1),
           curve: Curves.ease);
     }
   }
@@ -700,7 +700,7 @@ class _MonthPickerState extends State<MonthPicker>
       SemanticsService.announce(
           localizations.formatMonthYear(_previousMonthDate), textDirection);
       _dayPickerController!
-          .previousPage(duration: _kMonthScrollDuration, curve: Curves.ease);
+          .previousPage(duration: kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
@@ -1077,6 +1077,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
     var selectpDate = PersianDate.pDate(
         defualtFormat: widget.selectedFormat,
         gregorian: _selectedDate.toString());
+
     if (widget.convertToGregorian!) {
       selectedFormat = selectedFormat
           .replaceAll("MM", "MMMMM")
@@ -1086,7 +1087,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           .replaceAll("nn", "mm")
           .replaceAll("n", "m");
 
-      Navigator.pop(context, Jiffy(_selectedDate).format(selectedFormat));
+      Navigator.pop(context, Jiffy.parseFromDateTime(_selectedDate!).format(pattern:selectedFormat));
     } else {
       Navigator.pop(context, selectpDate.getDate);
     }

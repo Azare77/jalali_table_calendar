@@ -21,3 +21,7 @@
 ## [1.1.2]
 
 * change jalaliTableCalendar to JalaliTableCalendar
+
+## [1.1.2+1]
+
+* Update README.md

@@ -210,12 +210,12 @@ class PersianDate {
       jm = 7 + ((days - 186) ~/ 30);
       jd = 1 + (days - 186) % 30;
     }
-    var persionDate;
+    var persianDate;
     if (separator == null)
-      persionDate = [jY, jm, jd];
+      persianDate = [jY, jm, jd];
     else
-      persionDate = "$jY$separator$jm$separator$jd";
-    return persionDate;
+      persianDate = "$jY$separator$jm$separator$jd";
+    return persianDate;
   }
 
   jalaliToGregorian(int y, int m, int d, [String? separator]) {

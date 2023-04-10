@@ -149,8 +149,7 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
 
 class _DatePickerComponent extends StatefulWidget {
   _DatePickerComponent(
-      {Key? key,
-      required this.route,
+      {required this.route,
       this.minYear: _kDefaultMinYear,
       this.maxYear: _kDefaultMaxYear,
       this.initialYear: -1,
@@ -538,10 +537,9 @@ class _DatePickerState extends State<_DatePickerComponent> {
 }
 
 class _BottomPickerLayout extends SingleChildLayoutDelegate {
-  _BottomPickerLayout(this.progress, {this.itemCount, this.showTitleActions});
+  _BottomPickerLayout(this.progress, {this.showTitleActions});
 
   final double progress;
-  final int? itemCount;
   final bool? showTitleActions;
 
   @override

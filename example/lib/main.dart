@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:jalali_table_calendar/jalali_table_calendar.dart';
 import 'package:persian_date/persian_date.dart' as pDate;
@@ -43,8 +42,27 @@ class _State extends State<MyApp> {
         "Parse TO Format ${persianDate.gregorianToJalali("2019-02-20T00:19:54.000Z", "yyyy-m-d hh:nn")}");
   }
 
+  String numberFormatter(String number,bool persianNumber) {
+    Map numbers = {
+      '0': '۰',
+      '1': '۱',
+      '2': '۲',
+      '3': '۳',
+      '4': '۴',
+      '5': '۵',
+      '6': '۶',
+      '7': '۷',
+      '8': '۸',
+      '9': '۹',
+    };
+    if (persianNumber)
+      numbers.forEach((key, value) => number = number.replaceAll(key, value));
+    return number;
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Jalil Table Calendar'),
@@ -59,6 +77,7 @@ class _State extends State<MyApp> {
                   children: <Widget>[
                     JalaliTableCalendar(
                         context: context,
+                        locale: Locale('fa'),
                         // add the events for each day
                         events: {
                           today: ['sample event', 66546],
@@ -75,7 +94,8 @@ class _State extends State<MyApp> {
                                   color: Colors.blue[200],
                                   shape: BoxShape.circle),
                               padding: const EdgeInsets.all(6.0),
-                              child: Text((events?.length).toString()),
+                              child: Text(
+                                  numberFormatter((events?.length).toString(),true)),
                             ),
                           );
                         },
