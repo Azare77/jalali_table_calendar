@@ -168,17 +168,25 @@ class _DatePickerComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _DatePickerState(
-      minYear, maxYear, initialYear!, initialMonth!, initialDate!);
+      /*minYear, maxYear, initialYear!, initialMonth!, initialDate!*/);
 }
 
 class _DatePickerState extends State<_DatePickerComponent> {
-  final int? minYear, maxYear;
+  late int? minYear, maxYear;
   int? _currentYear, _currentMonth, _currentDate;
   int? _dateCountOfMonth;
   FixedExtentScrollController? yearScrollCtrl, monthScrollCtrl, dateScrollCtrl;
 
-  _DatePickerState(this.minYear, this.maxYear, int this._currentYear,
-      int this._currentMonth, int this._currentDate) {
+  _DatePickerState(
+      /*this.minYear, this.maxYear, int this._currentYear,
+      int this._currentMonth, int this._currentDate*/
+      ) {
+    minYear = widget.minYear;
+    maxYear = widget.maxYear;
+    _currentYear = widget.initialYear;
+    _currentMonth = widget.initialMonth;
+    _currentDate = widget.initialDate;
+
     if (_currentYear == -1) {
       _currentYear = minYear;
     }
