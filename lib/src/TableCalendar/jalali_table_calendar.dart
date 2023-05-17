@@ -20,7 +20,7 @@ enum DatePickerModeCalendar {
 
 bool calendarInitialized = false;
 //callback function when user change day
-typedef void OnDaySelected(DateTime day);
+typedef OnDaySelected = void Function(DateTime day);
 //callback function for create marker
 typedef MarkerBuilder = Widget Function(DateTime date, List? events);
 
@@ -84,8 +84,9 @@ class JalaliTableCalendar extends StatefulWidget {
   final Map<DateTime, List>? events;
   final OnDaySelected? onDaySelected;
 
-  JalaliTableCalendar(
-      {required this.context,
+  const JalaliTableCalendar(
+      {Key? key,
+      required this.context,
       this.selectableDayPredicate,
       this.selectedFormat,
       this.locale,
@@ -97,7 +98,8 @@ class JalaliTableCalendar extends StatefulWidget {
       this.initialTime,
       this.marker,
       this.events,
-      this.onDaySelected});
+      this.onDaySelected})
+      : super(key: key);
 
   @override
   _JalaliTableCalendarState createState() => _JalaliTableCalendarState();
@@ -137,7 +139,7 @@ class _JalaliTableCalendarState extends State<JalaliTableCalendar> {
         lastDate: lastDate,
         selectableDayPredicate: widget.selectableDayPredicate,
         initialDatePickerMode: widget.initialDatePickerMode,
-        selectedFormat: widget.selectedFormat ?? "yyyy-mm-dd HH:nn:ss",
+        selectedFormat: widget.selectedFormat ?? 'yyyy-mm-dd HH:nn:ss',
         hour24Format: widget.hour24Format,
         showTimePicker: widget.showTimePicker,
         marker: widget.marker,

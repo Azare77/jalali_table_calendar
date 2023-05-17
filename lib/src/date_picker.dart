@@ -406,7 +406,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
                 height: _kDatePickerItemHeight,
                 alignment: Alignment.center,
                 child: Text(
-                  "${index + 1}$dayAppend",
+                  '${index + 1}$dayAppend',
                   style: const TextStyle(
                       color: Color(0xFF000046), fontSize: _kDatePickerFontSize),
                   textAlign: TextAlign.start,
@@ -456,7 +456,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
 
     Widget? cancelWidget = widget.cancel;
     cancelWidget ??= Text(
-      '$cancel',
+      cancel,
       style: TextStyle(
         color: Theme.of(context).unselectedWidgetColor,
         fontSize: 16.0,
@@ -465,7 +465,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
 
     Widget? confirmWidget = widget.confirm;
     confirmWidget ??= Text(
-      '$done',
+      done,
       style: TextStyle(
         color: Theme.of(context).primaryColor,
         fontSize: 16.0,
