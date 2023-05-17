@@ -46,7 +46,7 @@ class _CalendarYearPickerState extends State<CalendarYearPicker> {
     scrollController = ScrollController(
       // Move the initial scroll position to the currently selected date's year.
       initialScrollOffset:
-      (widget.selectedDate.year - widget.firstDate.year) * _itemExtent,
+          (widget.selectedDate.year - widget.firstDate.year) * _itemExtent,
     );
   }
 
@@ -54,7 +54,7 @@ class _CalendarYearPickerState extends State<CalendarYearPicker> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     final ThemeData themeData = Theme.of(context);
-    final TextStyle? style = themeData.textTheme.bodyText1;
+    final TextStyle? style = themeData.textTheme.bodyLarge;
 
     return ListView.builder(
       controller: scrollController,
@@ -64,11 +64,11 @@ class _CalendarYearPickerState extends State<CalendarYearPicker> {
         final int year = widget.firstDate.year + index;
         final bool isSelected = year == widget.selectedDate.year;
         var gregorianDate =
-        DateTime(year, widget.selectedDate.month, widget.selectedDate.day);
+            DateTime(year, widget.selectedDate.month, widget.selectedDate.day);
         var pYear = PersianDate.pDate(gregorian: gregorianDate.toString());
         final TextStyle? itemStyle = isSelected
-            ? themeData.textTheme.headline1!
-            .copyWith(color: themeData.primaryColor)
+            ? themeData.textTheme.displayLarge!
+                .copyWith(color: themeData.primaryColor)
             : style;
         return InkWell(
           key: ValueKey<int>(year),
