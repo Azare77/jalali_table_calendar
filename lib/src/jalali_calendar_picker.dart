@@ -1088,11 +1088,14 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           .replaceAll('nn', 'mm')
           .replaceAll('n', 'm');
 
+      if (!mounted) return;
+
       Navigator.pop(
           context,
           Jiffy.parseFromDateTime(_selectedDate!)
               .format(pattern: selectedFormat));
     } else {
+      if (!mounted) return;
       Navigator.pop(context, selectpDate.getDate);
     }
 
