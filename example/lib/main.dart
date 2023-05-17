@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _State extends State<MyApp> {
   pDate.PersianDate persianDate =
-      pDate.PersianDate(format: "yyyy/mm/dd  \n DD  , d  MM  ");
+      pDate.PersianDate(format: 'yyyy/mm/dd  \n DD  , d  MM  ');
   String _datetime = '';
   String _format = 'yyyy-mm-dd';
   String _value = '';
@@ -42,7 +42,7 @@ class _State extends State<MyApp> {
         "Parse TO Format ${persianDate.gregorianToJalali("2019-02-20T00:19:54.000Z", "yyyy-m-d hh:nn")}");
   }
 
-  String numberFormatter(String number,bool persianNumber) {
+  String numberFormatter(String number, bool persianNumber) {
     Map numbers = {
       '0': '۰',
       '1': '۱',
@@ -62,7 +62,6 @@ class _State extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Jalil Table Calendar'),
@@ -94,8 +93,8 @@ class _State extends State<MyApp> {
                                   color: Colors.blue[200],
                                   shape: BoxShape.circle),
                               padding: const EdgeInsets.all(6.0),
-                              child: Text(
-                                  numberFormatter((events?.length).toString(),true)),
+                              child: Text(numberFormatter(
+                                  (events?.length).toString(), true)),
                             ),
                           );
                         },
@@ -114,13 +113,13 @@ class _State extends State<MyApp> {
                       child: new Text('نمایش دیت پیکر'),
                     ),
                     Text(
-                      "\nزمان و تاریخ فعلی سیستم :  ${persianDate.now}",
+                      '\nزمان و تاریخ فعلی سیستم :  ${persianDate.now}',
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.rtl,
                     ),
                     Divider(),
                     Text(
-                      "تقویم ",
+                      'تقویم ',
                       textAlign: TextAlign.center,
                     ),
                     Text(
@@ -173,7 +172,7 @@ class _State extends State<MyApp> {
     }, onConfirm: (year, month, day) {
       _changeDatetime(year, month, day);
       _valuePiker =
-          " تاریخ ترکیبی : $_datetime  \n سال : $year \n  ماه :   $month \n  روز :  $day";
+          ' تاریخ ترکیبی : $_datetime  \n سال : $year \n  ماه :   $month \n  روز :  $day';
     });
   }
 
