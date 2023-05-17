@@ -102,7 +102,7 @@ class JalaliTableCalendar extends StatefulWidget {
       : super(key: key);
 
   @override
-  _JalaliTableCalendarState createState() => _JalaliTableCalendarState();
+  State<JalaliTableCalendar> createState() => _JalaliTableCalendarState();
 }
 
 class _JalaliTableCalendarState extends State<JalaliTableCalendar> {

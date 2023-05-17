@@ -65,7 +65,7 @@ class CalendarMonthPicker extends StatefulWidget {
   final CalendarSelectableDayPredicate? selectableDayPredicate;
 
   @override
-  _CalendarMonthPickerState createState() => _CalendarMonthPickerState();
+  State<CalendarMonthPicker> createState() => _CalendarMonthPickerState();
 }
 
 class _CalendarMonthPickerState extends State<CalendarMonthPicker>

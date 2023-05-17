@@ -52,7 +52,7 @@ class DatePickerCalendar extends StatefulWidget {
   final OnDaySelected? onDaySelected;
 
   @override
-  _DatePickerCalendarState createState() => _DatePickerCalendarState();
+  State<DatePickerCalendar> createState() => _DatePickerCalendarState();
 }
 
 class _DatePickerCalendarState extends State<DatePickerCalendar> {
