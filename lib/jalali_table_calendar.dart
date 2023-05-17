@@ -1,6 +1,6 @@
 library jalali_table_calendar;
 
-export 'src/jalaliCalendarPicker.dart';
-export 'src/DatePicker.dart';
-export 'src/TableCalendar/jalaliTableCalendar.dart';
+export 'src/jalali_calendar_picker.dart';
+export 'src/date_picker.dart';
+export 'src/TableCalendar/jalali_table_calendar.dart';
 export 'src/persian_date.dart';
