@@ -4,20 +4,22 @@ import 'package:jalali_table_calendar/jalali_table_calendar.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 void main() {
-  runApp(new MaterialApp(
+  runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: new MyApp(),
+    home: MyApp(),
   ));
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
-  _State createState() => new _State();
+  State<MyApp> createState() => _State();
 }
 
 class _State extends State<MyApp> {
   String _datetime = '';
-  String _format = 'yyyy-mm-dd';
+  final String _format = 'yyyy-mm-dd';
   String _value = '';
   String _valuePiker = '';
   DateTime selectedDate = DateTime.now();
@@ -53,88 +55,98 @@ class _State extends State<MyApp> {
       '8': '۸',
       '9': '۹',
     };
-    if (persianNumber)
+    if (persianNumber) {
       numbers.forEach((key, value) => number = number.replaceAll(key, value));
+    }
     return number;
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Jalil Table Calendar'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Jalil Table Calendar'),
         centerTitle: true,
       ),
-      body: new Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Center(
-                child: Column(
-                  children: <Widget>[
-                    JalaliTableCalendar(
-                        context: context,
-                        locale: Locale('fa'),
-                        // add the events for each day
-                        events: {
-                          today: ['sample event', 66546],
-                          today.add(Duration(days: 1)): [6, 5, 465, 1, 66546],
-                          today.add(Duration(days: 2)): [6, 5, 465, 66546],
-                        },
-                        //make marker for every day that have some events
-                        marker: (date, events) {
-                          return Positioned(
-                            top: -4,
-                            left: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.blue[200],
-                                  shape: BoxShape.circle),
-                              padding: const EdgeInsets.all(6.0),
-                              child: Text(numberFormatter(
-                                  (events?.length).toString(), true)),
-                            ),
-                          );
-                        },
-                        onDaySelected: (date) {
-                          print(date);
-                        }),
-                    Text('  مبدّل تاریخ و زمان ,‌ تاریخ هجری شمسی '),
-                    Text(' تقویم شمسی '),
-                    Text('date picker شمسی '),
-                    new ElevatedButton(
-                      onPressed: _selectDate,
-                      child: new Text('نمایش تقویم'),
-                    ),
-                    new ElevatedButton(
-                      onPressed: _showDatePicker,
-                      child: new Text('نمایش دیت پیکر'),
-                    ),
-                    Text(
-                      '\nزمان و تاریخ فعلی سیستم :  ${Jalali.now()}',
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
-                    ),
-                    Divider(),
-                    Text(
-                      'تقویم ',
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      _value,
-                      textAlign: TextAlign.center,
-                    ),
-                    Divider(),
-                    Text(
-                      _valuePiker,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              )
-              // Expanded(child: ShowCalender())
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: Column(
+                children: <Widget>[
+                  JalaliTableCalendar(
+                      context: context,
+                      locale: const Locale('fa'),
+                      // add the events for each day
+                      events: {
+                        today: const ['sample event', 66546],
+                        today.add(const Duration(days: 1)): const [
+                          6,
+                          5,
+                          465,
+                          1,
+                          66546
+                        ],
+                        today.add(const Duration(days: 2)): const [
+                          6,
+                          5,
+                          465,
+                          66546
+                        ],
+                      },
+                      //make marker for every day that have some events
+                      marker: (date, events) {
+                        return Positioned(
+                          top: -4,
+                          left: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.blue[200],
+                                shape: BoxShape.circle),
+                            padding: const EdgeInsets.all(6.0),
+                            child: Text(numberFormatter(
+                                (events?.length).toString(), true)),
+                          ),
+                        );
+                      },
+                      onDaySelected: (date) {
+                        print(date);
+                      }),
+                  const Text('  مبدّل تاریخ و زمان ,‌ تاریخ هجری شمسی '),
+                  const Text(' تقویم شمسی '),
+                  const Text('date picker شمسی '),
+                  ElevatedButton(
+                    onPressed: _selectDate,
+                    child: const Text('نمایش تقویم'),
+                  ),
+                  ElevatedButton(
+                    onPressed: _showDatePicker,
+                    child: const Text('نمایش دیت پیکر'),
+                  ),
+                  Text(
+                    '\nزمان و تاریخ فعلی سیستم :  ${Jalali.now()}',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                  ),
+                  const Divider(),
+                  const Text(
+                    'تقویم ',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    _value,
+                    textAlign: TextAlign.center,
+                  ),
+                  const Divider(),
+                  Text(
+                    _valuePiker,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )
+            // Expanded(child: ShowCalender())
+          ],
         ),
       ),
     );
@@ -145,21 +157,22 @@ class _State extends State<MyApp> {
     await showDialog(
         context: context,
         builder: (context) => DateRangePickerDialog(
-              firstDate: DateTime.now().subtract(Duration(days: 3650)),
+              firstDate: DateTime.now().subtract(const Duration(days: 3650)),
               lastDate: DateTime.now(),
             ));
-    final bool showTitleActions = false;
+    const bool showTitleActions = false;
+    if (!mounted) return;
     DatePicker.showDatePicker(context,
         minYear: 1300,
         maxYear: 1450,
 /*      initialYear: 1368,
       initialMonth: 05,
       initialDay: 30,*/
-        confirm: Text(
+        confirm: const Text(
           'تایید',
           style: TextStyle(color: Colors.red),
         ),
-        cancel: Text(
+        cancel: const Text(
           'لغو',
           style: TextStyle(color: Colors.cyan),
         ),
