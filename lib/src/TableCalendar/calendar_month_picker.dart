@@ -84,7 +84,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     // Initially display the pre-selected date.
     final int monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
     _dayPickerController = PageController(initialPage: monthPage);
-    _handleMonthPageChanged(monthPage);
+    _handleMonthPageChanged(monthPage, false);
     _updateCurrentDate();
 
     // Setup the fade animation for chevrons
@@ -108,7 +108,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     if (widget.selectedDate != oldWidget.selectedDate) {
       final int monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
       _dayPickerController = PageController(initialPage: monthPage);
-      _handleMonthPageChanged(monthPage);
+      _handleMonthPageChanged(monthPage, false);
     }
   }
 
@@ -227,7 +227,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
   late DateTime _previousMonthDate;
   late DateTime _nextMonthDate;
 
-  void _handleMonthPageChanged(int monthPage) {
+  void _handleMonthPageChanged(int monthPage, bool fireEvent) {
     setState(() {
       _previousMonthDate =
           _addMonthsToMonthDate(widget.firstDate, monthPage - 1);
@@ -235,7 +235,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
           _addMonthsToMonthDate(widget.firstDate, monthPage);
       _nextMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage + 1);
     });
-    if (widget.onMonthPageChanged != null) {
+    if (fireEvent && widget.onMonthPageChanged != null) {
       widget.onMonthPageChanged!(_currentDisplayedMonthDate);
     }
   }
@@ -261,7 +261,9 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
                 scrollDirection: Axis.horizontal,
                 itemCount: _monthDelta(widget.firstDate, widget.lastDate) + 1,
                 itemBuilder: _buildItems,
-                onPageChanged: _handleMonthPageChanged,
+                onPageChanged: (value) {
+                  _handleMonthPageChanged(value, true);
+                },
               ),
             ),
           ),
