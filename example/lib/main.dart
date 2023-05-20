@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jalali_table_calendar/jalali_table_calendar.dart';
-import 'package:persian_date/persian_date.dart' as pDate;
+import 'package:shamsi_date/shamsi_date.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -16,8 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _State extends State<MyApp> {
-  pDate.PersianDate persianDate =
-      pDate.PersianDate(format: 'yyyy/mm/dd  \n DD  , d  MM  ');
   String _datetime = '';
   String _format = 'yyyy-mm-dd';
   String _value = '';
@@ -25,7 +23,7 @@ class _State extends State<MyApp> {
   DateTime selectedDate = DateTime.now();
 
   Future _selectDate() async {
-    String picked = await jalaliCalendarPicker(
+    String? picked = await jalaliCalendarPicker(
         context: context,
         convertToGregorian: false,
         showTimePicker: true,
@@ -39,7 +37,7 @@ class _State extends State<MyApp> {
   void initState() {
     super.initState();
     print(
-        "Parse TO Format ${persianDate.gregorianToJalali("2019-02-20T00:19:54.000Z", "yyyy-m-d hh:nn")}");
+        'Parse TO Format ${Gregorian(2019, 02, 20, 00, 19, 54, 000).toJalali()}');
   }
 
   String numberFormatter(String number, bool persianNumber) {
@@ -113,7 +111,7 @@ class _State extends State<MyApp> {
                       child: new Text('نمایش دیت پیکر'),
                     ),
                     Text(
-                      '\nزمان و تاریخ فعلی سیستم :  ${persianDate.now}',
+                      '\nزمان و تاریخ فعلی سیستم :  ${Jalali.now()}',
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.rtl,
                     ),
@@ -166,10 +164,12 @@ class _State extends State<MyApp> {
           style: TextStyle(color: Colors.cyan),
         ),
         dateFormat: _format, onChanged: (year, month, day) {
+      if (year == null || month == null || day == null) return;
       if (!showTitleActions) {
         _changeDatetime(year, month, day);
       }
     }, onConfirm: (year, month, day) {
+      if (year == null || month == null || day == null) return;
       _changeDatetime(year, month, day);
       _valuePiker =
           ' تاریخ ترکیبی : $_datetime  \n سال : $year \n  ماه :   $month \n  روز :  $day';
