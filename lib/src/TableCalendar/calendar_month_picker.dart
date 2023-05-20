@@ -34,6 +34,7 @@ class CalendarMonthPicker extends StatefulWidget {
     this.marker,
     this.events,
     this.selectableDayPredicate,
+    this.onMonthPageChanged,
   })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate) ||
             selectedDate.isAtSameMomentAs(firstDate)),
@@ -53,6 +54,9 @@ class CalendarMonthPicker extends StatefulWidget {
 
   /// Called when the user picks a month.
   final ValueChanged<DateTime> onChanged;
+
+  /// Called whenever the month page in the center of the viewport changes.
+  final ValueChanged<DateTime>? onMonthPageChanged;
 
   /// The earliest date the user is permitted to pick.
   final DateTime firstDate;
@@ -231,6 +235,9 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
           _addMonthsToMonthDate(widget.firstDate, monthPage);
       _nextMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage + 1);
     });
+    if (widget.onMonthPageChanged != null) {
+      widget.onMonthPageChanged!(_currentDisplayedMonthDate);
+    }
   }
 
   @override

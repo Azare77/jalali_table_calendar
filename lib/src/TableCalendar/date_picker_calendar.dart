@@ -27,6 +27,7 @@ class DatePickerCalendar extends StatefulWidget {
     this.events,
     this.hour24Format,
     this.contextLocale,
+    this.onMonthPageChanged,
   }) : super(key: key);
 
   final DateTime? initialDate;
@@ -50,6 +51,9 @@ class DatePickerCalendar extends StatefulWidget {
 
   /// Called whenever any day gets tapped.
   final OnDaySelected? onDaySelected;
+
+  /// Called whenever the month page in the center of the viewport changes.
+  final ValueChanged<DateTime>? onMonthPageChanged;
 
   @override
   State<DatePickerCalendar> createState() => _DatePickerCalendarState();
@@ -162,6 +166,7 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
           contextLocale: widget.contextLocale,
           lastDate: widget.lastDate!,
           selectableDayPredicate: widget.selectableDayPredicate,
+          onMonthPageChanged: widget.onMonthPageChanged,
         );
       case DatePickerModeCalendar.year:
         return CalendarYearPicker(

@@ -83,23 +83,25 @@ class JalaliTableCalendar extends StatefulWidget {
   final MarkerBuilder? marker;
   final Map<DateTime, List>? events;
   final OnDaySelected? onDaySelected;
+  final ValueChanged<DateTime>? onMonthPageChanged;
 
-  const JalaliTableCalendar(
-      {Key? key,
-      required this.context,
-      this.selectableDayPredicate,
-      this.selectedFormat,
-      this.locale,
-      this.initialDatePickerMode = DatePickerModeCalendar.day,
-      this.textDirection = TextDirection.rtl,
-      this.convertToGregorian = false,
-      this.showTimePicker = false,
-      this.hour24Format = false,
-      this.initialTime,
-      this.marker,
-      this.events,
-      this.onDaySelected})
-      : super(key: key);
+  const JalaliTableCalendar({
+    Key? key,
+    required this.context,
+    this.selectableDayPredicate,
+    this.selectedFormat,
+    this.locale,
+    this.initialDatePickerMode = DatePickerModeCalendar.day,
+    this.textDirection = TextDirection.rtl,
+    this.convertToGregorian = false,
+    this.showTimePicker = false,
+    this.hour24Format = false,
+    this.initialTime,
+    this.marker,
+    this.events,
+    this.onDaySelected,
+    this.onMonthPageChanged,
+  }) : super(key: key);
 
   @override
   State<JalaliTableCalendar> createState() => _JalaliTableCalendarState();
@@ -148,6 +150,7 @@ class _JalaliTableCalendarState extends State<JalaliTableCalendar> {
         onDaySelected: widget.onDaySelected,
         convertToGregorian: widget.convertToGregorian,
         initialTime: widget.initialTime ?? TimeOfDay.now(),
+        onMonthPageChanged: widget.onMonthPageChanged,
       ),
     );
   }

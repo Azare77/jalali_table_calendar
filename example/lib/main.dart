@@ -75,43 +75,46 @@ class _State extends State<MyApp> {
               child: Column(
                 children: <Widget>[
                   JalaliTableCalendar(
-                      context: context,
-                      locale: const Locale('fa'),
-                      // add the events for each day
-                      events: {
-                        today: const ['sample event', 66546],
-                        today.add(const Duration(days: 1)): const [
-                          6,
-                          5,
-                          465,
-                          1,
-                          66546
-                        ],
-                        today.add(const Duration(days: 2)): const [
-                          6,
-                          5,
-                          465,
-                          66546
-                        ],
-                      },
-                      //make marker for every day that have some events
-                      marker: (date, events) {
-                        return Positioned(
-                          top: -4,
-                          left: 0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.blue[200],
-                                shape: BoxShape.circle),
-                            padding: const EdgeInsets.all(6.0),
-                            child: Text(numberFormatter(
-                                (events?.length).toString(), true)),
-                          ),
-                        );
-                      },
-                      onDaySelected: (date) {
-                        print(date);
-                      }),
+                    context: context,
+                    locale: const Locale('fa'),
+                    // add the events for each day
+                    events: {
+                      today: const ['sample event', 66546],
+                      today.add(const Duration(days: 1)): const [
+                        6,
+                        5,
+                        465,
+                        1,
+                        66546
+                      ],
+                      today.add(const Duration(days: 2)): const [
+                        6,
+                        5,
+                        465,
+                        66546
+                      ],
+                    },
+                    //make marker for every day that have some events
+                    marker: (date, events) {
+                      return Positioned(
+                        top: -4,
+                        left: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue[200], shape: BoxShape.circle),
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(numberFormatter(
+                              (events?.length).toString(), true)),
+                        ),
+                      );
+                    },
+                    onDaySelected: (date) {
+                      print(date);
+                    },
+                    onMonthPageChanged: (date) {
+                      print(date);
+                    },
+                  ),
                   const Text('  مبدّل تاریخ و زمان ,‌ تاریخ هجری شمسی '),
                   const Text(' تقویم شمسی '),
                   const Text('date picker شمسی '),
