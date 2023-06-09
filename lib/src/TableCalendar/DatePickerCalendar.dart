@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:jalali_table_calendar/jalali_table_calendar.dart';
-
 import 'CalendarDayPicker.dart';
 import 'CalendarMonthPicker.dart';
 import 'CalendarYearPicker.dart';
 
-const double _kMaxDayPickerHeight =
-    kDayPickerRowHeight * (kMaxDayPickerRowCount + 2);
 
 class DatePickerCalendar extends StatefulWidget {
   const DatePickerCalendar({
@@ -23,6 +20,7 @@ class DatePickerCalendar extends StatefulWidget {
     this.convertToGregorian,
     this.initialTime,
     this.onDaySelected,
+    this.onMonthChanged,
     this.marker,
     this.events,
     this.hour24Format,
@@ -50,6 +48,7 @@ class DatePickerCalendar extends StatefulWidget {
 
   /// Called whenever any day gets tapped.
   final OnDaySelected? onDaySelected;
+  final OnMonthChanged? onMonthChanged;
 
   @override
   _DatePickerCalendarState createState() => _DatePickerCalendarState();
@@ -99,19 +98,13 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
     }
   }
 
-  // void _handleModeChanged(DatePickerModeCalendar mode) {
-  //   _vibrate();
-  //   setState(() {
-  //     _mode = mode;
-  //     if (_mode == DatePickerModeCalendar.day) {
-  //       SemanticsService.announce(
-  //           localizations.formatMonthYear(_selectedDate!), textDirection);
-  //     } else {
-  //       SemanticsService.announce(
-  //           localizations.formatYear(_selectedDate!), textDirection);
-  //     }
-  //   });
-  // }
+  void _handleMonthChanged(DateTime value) {
+    if (widget.onMonthChanged != null) widget.onMonthChanged!(value);
+    _vibrate();
+    // setState(() {
+    //
+    // });
+  }
 
   void _handleYearChanged(DateTime value) {
     _vibrate();
@@ -132,7 +125,8 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
   @override
   Widget build(BuildContext context) {
     final Widget picker = SizedBox(
-      height: _kMaxDayPickerHeight,
+      //it's too dirty  i know!!!
+      height: MediaQuery.of(context).size.height-kDayPickerRowHeight-6,
       child: _buildWidget(),
     );
     final Widget calendar = OrientationBuilder(
@@ -147,14 +141,16 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
     });
     return calendar;
   }
-  Widget? _buildWidget() {
+
+  Widget _buildWidget() {
     assert(_mode != null);
     switch (_mode) {
       case DatePickerModeCalendar.day:
         return CalendarMonthPicker(
           key: _pickerKey,
           selectedDate: _selectedDate!,
-          onChanged: _handleDayChanged,
+          onDayChanged: _handleDayChanged,
+          onMonthChanged:_handleMonthChanged,
           marker: widget.marker,
           events: widget.events,
           firstDate: widget.firstDate!,
@@ -171,7 +167,7 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
           lastDate: widget.lastDate!,
         );
       default:
-        return null;
+        return SizedBox();
     }
   }
 }

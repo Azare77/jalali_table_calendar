@@ -21,9 +21,9 @@ const List<int> leapYearMonths = const <int>[1, 3, 5, 7, 8, 10, 12];
 class DatePicker {
   static void showDatePicker(
     BuildContext context, {
-    bool showTitleActions: true,
-    int minYear: _kDefaultMinYear,
-    int maxYear: _kDefaultMaxYear,
+    bool showTitleActions = true,
+    int minYear = _kDefaultMinYear,
+    int maxYear = _kDefaultMaxYear,
     int? initialYear,
     int? initialMonth,
     int? initialDay,
@@ -31,7 +31,7 @@ class DatePicker {
     Widget? confirm,
     DateChangedCallback? onChanged,
     DateChangedCallback? onConfirm,
-    dateFormat: _kDateFormatDefault,
+    dateFormat = _kDateFormatDefault,
   }) {
     if (dateFormat == null || dateFormat.length == 0) {
       dateFormat = _kDateFormatDefault;
@@ -150,11 +150,11 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
 class _DatePickerComponent extends StatefulWidget {
   _DatePickerComponent(
       {required this.route,
-      this.minYear: _kDefaultMinYear,
-      this.maxYear: _kDefaultMaxYear,
-      this.initialYear: -1,
-      this.initialMonth: 1,
-      this.initialDate: 1,
+      this.minYear = _kDefaultMinYear,
+      this.maxYear = _kDefaultMaxYear,
+      this.initialYear = -1,
+      this.initialMonth = 1,
+      this.initialDate = 1,
       this.cancel,
       this.confirm,
       this.onChanged,

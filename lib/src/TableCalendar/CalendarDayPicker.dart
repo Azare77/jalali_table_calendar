@@ -7,7 +7,7 @@ import 'DayPickerGridDelegate.dart';
 // const double _kDatePickerHeaderLandscapeWidth = 168.0;
 
 // const Duration _kMonthScrollDuration = Duration(milliseconds: 200);
-const double kDayPickerRowHeight = 50.0;
+late double kDayPickerRowHeight = 50.0;
 const int kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
 
@@ -25,6 +25,7 @@ const DayPickerGridDelegate _kDayPickerGridDelegate = DayPickerGridDelegate();
 ///
 ///  * [showDatePicker].
 ///  * <https://material.google.com/components/pickers.html#pickers-date-pickers>
+// ignore: must_be_immutable
 class CalendarDayPicker extends StatelessWidget {
   /// Creates a day picker.
   ///
@@ -33,7 +34,7 @@ class CalendarDayPicker extends StatelessWidget {
     Key? key,
     required this.selectedDate,
     required this.currentDate,
-    required this.onChanged,
+    required this.onDayChanged,
     required this.firstDate,
     required this.lastDate,
     required this.displayedMonth,
@@ -62,7 +63,7 @@ class CalendarDayPicker extends StatelessWidget {
   final DateTime currentDate;
 
   /// Called when the user picks a day.
-  final ValueChanged<DateTime> onChanged;
+  final ValueChanged<DateTime> onDayChanged;
 
   /// The earliest date the user is permitted to pick.
   final DateTime firstDate;
@@ -77,6 +78,8 @@ class CalendarDayPicker extends StatelessWidget {
   final CalendarSelectableDayPredicate? selectableDayPredicate;
 
   final Locale? contextLocale;
+
+  late TextStyle? itemStyle;
 
   /// Builds widgets showing abbreviated days of week. The first widget in the
   /// returned list corresponds to the first day of week for the current locale.
@@ -130,10 +133,12 @@ class CalendarDayPicker extends StatelessWidget {
   List<Widget> _getDayHeaders() {
     final List<Widget> result = <Widget>[];
     Color color;
+    TextStyle headerStyle = itemStyle!;
     for (String dayHeader in dayHeader()) {
       color = dayHeader == 'ج' || dayHeader == 'Su' ? Colors.red : Colors.black;
       result.add(ExcludeSemantics(
-        child: Center(child: Text(dayHeader, style: TextStyle(color: color))),
+        child: Center(
+            child: Text(dayHeader, style: headerStyle.copyWith(color: color))),
       ));
     }
     return result;
@@ -234,6 +239,7 @@ class CalendarDayPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
+    kDayPickerRowHeight = MediaQuery.of(context).size.height / 18;
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     final int year = displayedMonth.year;
@@ -262,7 +268,7 @@ class CalendarDayPicker extends StatelessWidget {
         PersianDate.pDate(gregorian: "${jtgData[0]}-$pMonth-${jtgData[2]}");
     var daysInMonth = getDaysInMonth(pDate.year!, pDate.month);
     var startDay = dayShort.indexOf(pDate.weekdayname);
-
+    itemStyle = themeData.textTheme.titleLarge;
     labels.addAll(_getDayHeaders());
     for (int i = 0; true; i += 1) {
       final int day = i - startDay + 1;
@@ -284,50 +290,42 @@ class CalendarDayPicker extends StatelessWidget {
                 !selectableDayPredicate!(dayToBuild));
 
         BoxDecoration? decoration;
-        TextStyle? itemStyle = themeData.textTheme.bodyText1;
-
+        itemStyle = themeData.textTheme.titleLarge;
         final bool isSelectedDay =
             selectedPersianDate.year == getPearData.year &&
                 selectedPersianDate.month == getPearData.month &&
                 selectedPersianDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.textTheme.bodyText2
-              ?.copyWith(color: themeData.scaffoldBackgroundColor);
+          itemStyle =
+              itemStyle?.copyWith(color: themeData.scaffoldBackgroundColor);
           decoration = BoxDecoration(
-              color: themeData.primaryColor, shape: BoxShape.circle);
+            color: themeData.primaryColor,
+            shape: BoxShape.circle,
+          );
         } else if (disabled) {
-          itemStyle = themeData.textTheme.bodyText2!
-              .copyWith(color: themeData.disabledColor);
+          itemStyle = itemStyle!.copyWith(color: themeData.disabledColor);
         } else if (currentPDate.year == getPearData.year &&
             currentPDate.month == getPearData.month &&
             currentPDate.day == day) {
           // The current day gets a different text color.
-          itemStyle = themeData.textTheme.bodyText2!
-              .copyWith(color: themeData.primaryColor);
+          itemStyle = itemStyle!.copyWith(color: themeData.primaryColor);
         } else if (getHoliday.isHoliday) {
           // The current day gets a different text color.
-          itemStyle =
-              themeData.textTheme.bodyText2!.copyWith(color: Colors.red);
+          itemStyle = itemStyle!.copyWith(color: Colors.red);
         }
 
         // prepare to events to return to view
         List? dayEvents = [];
         if (events![dayToBuild] != null) dayEvents = events![dayToBuild];
         //get Marker for day
-        Widget mark = marker!(dayToBuild, dayEvents);
+        Widget? mark = marker != null ? marker!(dayToBuild, dayEvents) : null;
         Widget dayWidget = Container(
           decoration: decoration,
           child: Stack(
             children: [
               Center(
                 child: Semantics(
-                  // We want the day of month to be spoken first irrespective of the
-                  // locale-specific preferences or TextDirection. This is because
-                  // an accessibility user is more likely to be interested in the
-                  // day of month before the rest of the date, as they are looking
-                  // for the day of month. To do that we prepend day of month to the
-                  // formatted full date.
                   label:
                       '${localizations.formatDecimal(day)}, ${localizations.formatFullDate(dayToBuild)}',
                   selected: isSelectedDay,
@@ -338,52 +336,53 @@ class CalendarDayPicker extends StatelessWidget {
                 ),
               ),
               if (marker != null &&
+                  mark != null &&
                   events != null &&
                   events![dayToBuild] != null)
                 mark
             ],
           ),
         );
-
         if (!disabled) {
           dayWidget = GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              onChanged(dayToBuild);
+              onDayChanged(dayToBuild);
             },
             child: dayWidget,
           );
         }
-
         labels.add(dayWidget);
       }
     }
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Directionality(
           textDirection: TextDirection.rtl,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: kDayPickerRowHeight,
-                child: Center(
-                  child: ExcludeSemantics(
-                    child: Text(
-                      "${pDate.monthname}  ${numberFormatter(pDate.year.toString())}",
-                      style: themeData.textTheme.headline5,
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                SizedBox(
+                  height: kDayPickerRowHeight,
+                  child: Text(
+                    "${pDate.monthname}  ${numberFormatter(pDate.year.toString())}",
+                    style: themeData.textTheme.headlineSmall,
+                  ),
+                ),
+                Flexible(
+                  child: GridView.custom(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: _kDayPickerGridDelegate,
+                    childrenDelegate: SliverChildListDelegate(
+                      labels,
+                      addRepaintBoundaries: false,
                     ),
                   ),
                 ),
-              ),
-              Flexible(
-                child: GridView.custom(
-                  gridDelegate: _kDayPickerGridDelegate,
-                  childrenDelegate: SliverChildListDelegate(labels,
-                      addRepaintBoundaries: false),
-                ),
-              ),
-            ],
+              ],
+            ),
           )),
     );
   }

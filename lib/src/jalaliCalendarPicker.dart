@@ -73,7 +73,7 @@ class _DatePickerHeader extends StatelessWidget {
 
     Color? dayColor;
     Color? yearColor;
-    switch (themeData.primaryColorBrightness) {
+    switch (themeData.brightness) {
       case Brightness.light:
         dayColor = mode == DatePickerMode.day ? Colors.black87 : Colors.black54;
         yearColor =
@@ -84,10 +84,10 @@ class _DatePickerHeader extends StatelessWidget {
         yearColor = mode == DatePickerMode.year ? Colors.white : Colors.white70;
         break;
     }
-    final TextStyle dayStyle = headerTextTheme.headline5!
+    final TextStyle dayStyle = headerTextTheme.headlineSmall!
         .copyWith(color: dayColor, height: 1.4, fontSize: 23.0);
     final TextStyle yearStyle =
-        headerTextTheme.headline5!.copyWith(color: yearColor, height: 1.4);
+        headerTextTheme.headlineSmall!.copyWith(color: yearColor, height: 1.4);
 
     Color? backgroundColor;
     switch (themeData.brightness) {
@@ -95,7 +95,7 @@ class _DatePickerHeader extends StatelessWidget {
         backgroundColor = themeData.primaryColor;
         break;
       case Brightness.dark:
-        backgroundColor = themeData.backgroundColor;
+        backgroundColor = themeData.colorScheme.background;
         break;
     }
 
@@ -443,7 +443,7 @@ class DayPicker extends StatelessWidget {
                 !selectableDayPredicate!(dayToBuild));
 
         BoxDecoration? decoration;
-        TextStyle? itemStyle = themeData.textTheme.bodyText1;
+        TextStyle? itemStyle = themeData.textTheme.bodyLarge;
 
         final bool isSelectedDay =
             selectedPersainDate.year == getPearData.year &&
@@ -451,23 +451,23 @@ class DayPicker extends StatelessWidget {
                 selectedPersainDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.textTheme.bodyText2
+          itemStyle = themeData.textTheme.bodyMedium
               ?.copyWith(color: themeData.cardColor);
           decoration = BoxDecoration(
               color: themeData.primaryColor, shape: BoxShape.circle);
         } else if (disabled) {
-          itemStyle = themeData.textTheme.bodyText1!
+          itemStyle = themeData.textTheme.bodyLarge!
               .copyWith(color: themeData.disabledColor);
         } else if (currentPDate.year == getPearData.year &&
             currentPDate.month == getPearData.month &&
             currentPDate.day == day) {
           // The current day gets a different text color.
-          itemStyle = themeData.textTheme.bodyText2!
+          itemStyle = themeData.textTheme.bodyMedium!
               .copyWith(color: themeData.primaryColor);
         } else if (getHolidy.isHoliday) {
           // The current day gets a different text color.
           itemStyle =
-              themeData.textTheme.bodyText2!.copyWith(color: Colors.red);
+              themeData.textTheme.bodyMedium!.copyWith(color: Colors.red);
         }
         Widget dayWidget = Container(
           decoration: decoration,
@@ -509,13 +509,13 @@ class DayPicker extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: Column(
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: _kDayPickerRowHeight,
                 child: Center(
                   child: ExcludeSemantics(
                     child: Text(
                       "${pdate.monthname}  ${pdate.year}",
-                      style: themeData.textTheme.headline6,
+                      style: themeData.textTheme.titleLarge,
                     ),
                   ),
                 ),
@@ -880,7 +880,7 @@ class _YearPickerState extends State<YearPicker> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     final ThemeData themeData = Theme.of(context);
-    final TextStyle? style = themeData.textTheme.bodyText1;
+    final TextStyle? style = themeData.textTheme.bodyLarge;
 
     return ListView.builder(
       controller: scrollController,
@@ -893,7 +893,7 @@ class _YearPickerState extends State<YearPicker> {
             DateTime(year, widget.selectedDate.month, widget.selectedDate.day);
         var pYear = PersianDate.pDate(gregorian: dateee.toString());
         final TextStyle? itemStyle = isSelected
-            ? themeData.textTheme.headline5!
+            ? themeData.textTheme.headlineSmall!
                 .copyWith(color: themeData.primaryColor)
             : style;
         return InkWell(

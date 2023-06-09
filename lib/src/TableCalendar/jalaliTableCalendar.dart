@@ -21,6 +21,8 @@ enum DatePickerModeCalendar {
 bool calendarInitialized = false;
 //callback function when user change day
 typedef void OnDaySelected(DateTime day);
+//callback function when user change month
+typedef void OnMonthChanged(DateTime monthsToAdd);
 //callback function for create marker
 typedef MarkerBuilder = Widget Function(DateTime date, List? events);
 
@@ -35,9 +37,6 @@ typedef MarkerBuilder = Widget Function(DateTime date, List? events);
 ///
 ///  * [showDatePicker]
 ///  * <https://material.google.com/components/pickers.html#pickers-date-pickers>
-
-
-
 
 /// Signature for predicating dates for enabled date selections.
 ///
@@ -86,6 +85,7 @@ class JalaliTableCalendar extends StatefulWidget {
   final MarkerBuilder? marker;
   final Map<DateTime, List>? events;
   final OnDaySelected? onDaySelected;
+  final OnMonthChanged? onMonthChanged;
 
   JalaliTableCalendar(
       {required this.context,
@@ -100,7 +100,8 @@ class JalaliTableCalendar extends StatefulWidget {
       this.initialTime,
       this.marker,
       this.events,
-      this.onDaySelected});
+      this.onDaySelected,
+      this.onMonthChanged});
 
   @override
   _JalaliTableCalendarState createState() => _JalaliTableCalendarState();
@@ -147,6 +148,7 @@ class _JalaliTableCalendarState extends State<JalaliTableCalendar> {
         events: formattedEvents,
         contextLocale: widget.locale,
         onDaySelected: widget.onDaySelected,
+        onMonthChanged: widget.onMonthChanged,
         convertToGregorian: widget.convertToGregorian,
         initialTime: widget.initialTime ?? TimeOfDay.now(),
       ),

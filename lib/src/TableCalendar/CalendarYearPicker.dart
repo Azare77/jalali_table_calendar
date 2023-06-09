@@ -54,7 +54,7 @@ class _CalendarYearPickerState extends State<CalendarYearPicker> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     final ThemeData themeData = Theme.of(context);
-    final TextStyle? style = themeData.textTheme.bodyText1;
+    final TextStyle? style = themeData.textTheme.bodyLarge;
 
     return ListView.builder(
       controller: scrollController,
@@ -67,7 +67,7 @@ class _CalendarYearPickerState extends State<CalendarYearPicker> {
         DateTime(year, widget.selectedDate.month, widget.selectedDate.day);
         var pYear = PersianDate.pDate(gregorian: gregorianDate.toString());
         final TextStyle? itemStyle = isSelected
-            ? themeData.textTheme.headline1!
+            ? themeData.textTheme.headlineLarge!
             .copyWith(color: themeData.primaryColor)
             : style;
         return InkWell(

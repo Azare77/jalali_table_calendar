@@ -27,14 +27,16 @@ class CalendarMonthPicker extends StatefulWidget {
   CalendarMonthPicker({
     Key? key,
     required this.selectedDate,
-    required this.onChanged,
+    required this.onDayChanged,
+    required this.onMonthChanged,
     required this.firstDate,
     required this.lastDate,
     this.contextLocale,
     this.marker,
     this.events,
     this.selectableDayPredicate,
-  })  : assert(!firstDate.isAfter(lastDate)),
+  })
+      : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate) ||
             selectedDate.isAtSameMomentAs(firstDate)),
         super(key: key);
@@ -52,7 +54,8 @@ class CalendarMonthPicker extends StatefulWidget {
   final DateTime selectedDate;
 
   /// Called when the user picks a month.
-  final ValueChanged<DateTime> onChanged;
+  final ValueChanged<DateTime> onDayChanged;
+  final ValueChanged<DateTime> onMonthChanged;
 
   /// The earliest date the user is permitted to pick.
   final DateTime firstDate;
@@ -79,7 +82,9 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     super.initState();
     // Initially display the pre-selected date.
     final int monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
+    lastMonthPage = monthPage;
     _dayPickerController = PageController(initialPage: monthPage);
+    selectedDat = widget.selectedDate;
     _handleMonthPageChanged(monthPage);
     _updateCurrentDate();
 
@@ -89,6 +94,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     _chevronOpacityAnimation =
         _chevronOpacityController.drive(_chevronOpacityTween);
   }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -103,7 +109,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     if (widget.selectedDate != oldWidget.selectedDate) {
       final int monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
       _dayPickerController = PageController(initialPage: monthPage);
-      _handleMonthPageChanged(monthPage);
+      // _handleMonthPageChanged(monthPage);
     }
   }
 
@@ -145,6 +151,18 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
         startDate.month;
   }
 
+  late DateTime selectedDat;
+  late PersianDate lastDa = PersianDate();
+
+  void triggerOnMonthChanged(int monthsToAdd) {
+    selectedDat = DateTime(selectedDat.year, selectedDat.month + monthsToAdd, selectedDat.day);
+    PersianDate da = PersianDate.pDate(gregorian: selectedDat.toString());
+    if (lastDa.month != da.month) {
+      this.widget.onMonthChanged(da.jalaliToGregorian(da.year,da.month,da.day,toDateTime: true));
+    }
+    lastDa = da;
+  }
+
   /// Add months to a month truncated date.
   DateTime _addMonthsToMonthDate(DateTime monthDate, int monthsToAdd) {
     return DateTime(
@@ -164,13 +182,14 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
       _handleNextMonth(initialized: false);
     }
 
-    // if (!widget.isSelected && !changed) {
-    // }
     calendarInitialized = true;
     return CalendarDayPicker(
       selectedDate: widget.selectedDate,
       currentDate: _todayDate,
-      onChanged: widget.onChanged,
+      onDayChanged: (date) {
+        selectedDat = date;
+        widget.onDayChanged(date);
+      },
       firstDate: widget.firstDate,
       marker: widget.marker,
       lastDate: widget.lastDate,
@@ -220,9 +239,12 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
 
   late DateTime _previousMonthDate;
   late DateTime _nextMonthDate;
+  late int lastMonthPage;
 
   void _handleMonthPageChanged(int monthPage) {
+    triggerOnMonthChanged(monthPage - lastMonthPage);
     setState(() {
+      lastMonthPage = monthPage;
       _previousMonthDate =
           _addMonthsToMonthDate(widget.firstDate, monthPage - 1);
       _currentDisplayedMonthDate =
@@ -268,7 +290,8 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
                 icon: const Icon(Icons.chevron_left),
                 tooltip: _isDisplayingFirstMonth
                     ? null
-                    : '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}',
+                    : '${localizations.previousMonthTooltip} ${localizations
+                    .formatMonthYear(_previousMonthDate)}',
                 onPressed:
                 _isDisplayingFirstMonth ? null : _handlePreviousMonth,
               ),
@@ -286,7 +309,8 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
                 icon: const Icon(Icons.chevron_right),
                 tooltip: _isDisplayingLastMonth
                     ? null
-                    : '${localizations.nextMonthTooltip} ${localizations.formatMonthYear(_nextMonthDate)}',
+                    : '${localizations.nextMonthTooltip} ${localizations
+                    .formatMonthYear(_nextMonthDate)}',
                 onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
               ),
             ),
@@ -295,5 +319,4 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
       ],
     );
   }
-
 }

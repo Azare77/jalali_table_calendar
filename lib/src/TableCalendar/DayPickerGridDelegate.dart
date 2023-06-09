@@ -10,13 +10,15 @@ class DayPickerGridDelegate extends SliverGridDelegate {
   SliverGridLayout getLayout(SliverConstraints constraints) {
     const int columnCount = DateTime.daysPerWeek;
     final double tileWidth = constraints.crossAxisExtent / columnCount;
-    final double tileHeight = math.min(kDayPickerRowHeight,
-        constraints.viewportMainAxisExtent / (kMaxDayPickerRowCount + 1));
+    final double tileHeight = constraints.viewportMainAxisExtent / (kMaxDayPickerRowCount+1);
+    final double childTileHeight = math.max(kDayPickerRowHeight-5,
+        constraints.viewportMainAxisExtent / (kMaxDayPickerRowCount+6));
+
     return SliverGridRegularTileLayout(
       crossAxisCount: columnCount,
       mainAxisStride: tileHeight,
       crossAxisStride: tileWidth,
-      childMainAxisExtent: tileHeight,
+      childMainAxisExtent: childTileHeight,
       childCrossAxisExtent: tileWidth,
       reverseCrossAxis: axisDirectionIsReversed(constraints.crossAxisDirection),
     );
