@@ -17,7 +17,7 @@ You can follow [YouTube playlist](https://www.youtube.com/playlist?list=PL_YzUBD
 
 ## Import this line in Flutter pubspec.yaml
 ```dart
-jalali_table_calendar: ^1.1.2+1
+jalali_table_calendar: ^1.2.0
 ```
 ## To  Use Calendar Or DatePicker  , Import this line to your dart file
 ```dart
