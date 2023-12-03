@@ -5,7 +5,6 @@ Calendar , DatePicker and Date Converter For Persian Date(Jalali/Shamsi date) wi
 
 Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jalali_calendar) package
 
-You can follow [YouTube playlist](https://www.youtube.com/playlist?list=PL_YzUBDoYudSi3o4VBR97gtNTHIgb_DPX) of this package
 
 ![](https://i.ibb.co/Qb1Thp7/Screenshot-20210420-214031.png)</br></br>
 ![](https://github.com/irdeveloper89/jalali_calendar/blob/master/screenshots/screenshots.gif)
