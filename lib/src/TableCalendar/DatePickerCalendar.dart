@@ -6,7 +6,6 @@ import 'CalendarDayPicker.dart';
 import 'CalendarMonthPicker.dart';
 import 'CalendarYearPicker.dart';
 
-
 class DatePickerCalendar extends StatefulWidget {
   const DatePickerCalendar({
     Key? key,
@@ -25,6 +24,7 @@ class DatePickerCalendar extends StatefulWidget {
     this.events,
     this.hour24Format,
     this.contextLocale,
+    this.showArrows,
   }) : super(key: key);
 
   final DateTime? initialDate;
@@ -38,6 +38,8 @@ class DatePickerCalendar extends StatefulWidget {
   final bool? showTimePicker;
   final bool? hour24Format;
   final TimeOfDay? initialTime;
+
+  final bool? showArrows;
 
   //day marker
   final MarkerBuilder? marker;
@@ -126,7 +128,7 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
   Widget build(BuildContext context) {
     final Widget picker = SizedBox(
       //it's too dirty  i know!!!
-      height: MediaQuery.of(context).size.height-kDayPickerRowHeight-6,
+      height: MediaQuery.of(context).size.height - kDayPickerRowHeight - 6,
       child: _buildWidget(),
     );
     final Widget calendar = OrientationBuilder(
@@ -150,10 +152,11 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
           key: _pickerKey,
           selectedDate: _selectedDate!,
           onDayChanged: _handleDayChanged,
-          onMonthChanged:_handleMonthChanged,
+          onMonthChanged: _handleMonthChanged,
           marker: widget.marker,
           events: widget.events,
           firstDate: widget.firstDate!,
+          showArrows: widget.showArrows!,
           contextLocale: widget.contextLocale,
           lastDate: widget.lastDate!,
           selectableDayPredicate: widget.selectableDayPredicate,

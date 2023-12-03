@@ -81,6 +81,7 @@ class JalaliTableCalendar extends StatefulWidget {
   final bool convertToGregorian;
   final bool showTimePicker;
   final bool hour24Format;
+  final bool showArrows;
   final TimeOfDay? initialTime;
   final MarkerBuilder? marker;
   final Map<DateTime, List>? events;
@@ -97,6 +98,7 @@ class JalaliTableCalendar extends StatefulWidget {
       this.convertToGregorian = false,
       this.showTimePicker = false,
       this.hour24Format = false,
+      this.showArrows = true,
       this.initialTime,
       this.marker,
       this.events,
@@ -144,6 +146,7 @@ class _JalaliTableCalendarState extends State<JalaliTableCalendar> {
         selectedFormat: widget.selectedFormat ?? "yyyy-mm-dd HH:nn:ss",
         hour24Format: widget.hour24Format,
         showTimePicker: widget.showTimePicker,
+        showArrows: widget.showArrows,
         marker: widget.marker,
         events: formattedEvents,
         contextLocale: widget.locale,

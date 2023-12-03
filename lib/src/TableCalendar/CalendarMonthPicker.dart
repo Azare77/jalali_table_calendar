@@ -31,15 +31,16 @@ class CalendarMonthPicker extends StatefulWidget {
     required this.onMonthChanged,
     required this.firstDate,
     required this.lastDate,
+    required this.showArrows,
     this.contextLocale,
     this.marker,
     this.events,
     this.selectableDayPredicate,
-  })
-      : assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate) ||
             selectedDate.isAtSameMomentAs(firstDate)),
         super(key: key);
+  final bool showArrows;
 
   //day marker
   final MarkerBuilder? marker;
@@ -74,14 +75,20 @@ class CalendarMonthPicker extends StatefulWidget {
 class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     with SingleTickerProviderStateMixin {
   static final Animatable<double> _chevronOpacityTween =
-  Tween<double>(begin: 1.0, end: 0.0)
-      .chain(CurveTween(curve: Curves.easeInOut));
+      Tween<double>(begin: 1.0, end: 0.0)
+          .chain(CurveTween(curve: Curves.easeInOut));
 
   @override
   void initState() {
     super.initState();
     // Initially display the pre-selected date.
-    final int monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
+    final int monthPage;
+    if (widget.selectedDate.day == 1) {
+      DateTime fixedDate = new DateTime(widget.selectedDate.year,
+          widget.selectedDate.month - 1, widget.selectedDate.day);
+      monthPage = _monthDelta(widget.firstDate, fixedDate);
+    } else
+      monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
     lastMonthPage = monthPage;
     _dayPickerController = PageController(initialPage: monthPage);
     selectedDat = widget.selectedDate;
@@ -133,10 +140,10 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
   void _updateCurrentDate() {
     _todayDate = DateTime.now();
     final DateTime tomorrow =
-    DateTime(_todayDate.year, _todayDate.month, _todayDate.day + 1);
+        DateTime(_todayDate.year, _todayDate.month, _todayDate.day + 1);
     Duration timeUntilTomorrow = tomorrow.difference(_todayDate);
     timeUntilTomorrow +=
-    const Duration(seconds: 1); // so we don't miss it by rounding
+        const Duration(seconds: 1); // so we don't miss it by rounding
     _timer?.cancel();
     _timer = Timer(timeUntilTomorrow, () {
       setState(() {
@@ -153,14 +160,21 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
 
   late DateTime selectedDat;
   late PersianDate lastDa = PersianDate();
+  late bool initialized = false;
 
   void triggerOnMonthChanged(int monthsToAdd) {
-    selectedDat = DateTime(selectedDat.year, selectedDat.month + monthsToAdd, selectedDat.day);
-    PersianDate da = PersianDate.pDate(gregorian: selectedDat.toString());
-    if (lastDa.month != da.month) {
-      this.widget.onMonthChanged(da.jalaliToGregorian(da.year,da.month,da.day,toDateTime: true));
+    if (initialized) {
+      selectedDat = DateTime(
+          selectedDat.year, selectedDat.month + monthsToAdd, selectedDat.day);
+      PersianDate da = PersianDate.pDate(gregorian: selectedDat.toString());
+      if (lastDa.month != da.month) {
+        this.widget.onMonthChanged(
+            da.jalaliToGregorian(da.year, da.month, da.day, toDateTime: true));
+      }
+      lastDa = da;
+    } else {
+      initialized = true;
     }
-    lastDa = da;
   }
 
   /// Add months to a month truncated date.
@@ -207,7 +221,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
             localizations.formatMonthYear(_nextMonthDate), textDirection);
         _dayPickerController!.nextPage(
             duration:
-            initialized ? kMonthScrollDuration : Duration(milliseconds: 1),
+                initialized ? kMonthScrollDuration : Duration(milliseconds: 1),
             curve: Curves.ease);
       }
     } catch (e) {
@@ -279,6 +293,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
             ),
           ),
         ),
+        if(widget.showArrows)
         PositionedDirectional(
           top: 0.0,
           start: 8.0,
@@ -287,17 +302,18 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
             child: FadeTransition(
               opacity: _chevronOpacityAnimation,
               child: IconButton(
-                icon: const Icon(Icons.chevron_left),
+                icon: Icon(Icons.chevron_left,
+                    color: Theme.of(context).textTheme.titleSmall?.color),
                 tooltip: _isDisplayingFirstMonth
                     ? null
-                    : '${localizations.previousMonthTooltip} ${localizations
-                    .formatMonthYear(_previousMonthDate)}',
+                    : '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}',
                 onPressed:
-                _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+                    _isDisplayingFirstMonth ? null : _handlePreviousMonth,
               ),
             ),
           ),
         ),
+        if(widget.showArrows)
         PositionedDirectional(
           top: 0.0,
           end: 8.0,
@@ -306,11 +322,11 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
             child: FadeTransition(
               opacity: _chevronOpacityAnimation,
               child: IconButton(
-                icon: const Icon(Icons.chevron_right),
+                icon: Icon(Icons.chevron_right,
+                    color: Theme.of(context).textTheme.titleSmall?.color),
                 tooltip: _isDisplayingLastMonth
                     ? null
-                    : '${localizations.nextMonthTooltip} ${localizations
-                    .formatMonthYear(_nextMonthDate)}',
+                    : '${localizations.nextMonthTooltip} ${localizations.formatMonthYear(_nextMonthDate)}',
                 onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
               ),
             ),
