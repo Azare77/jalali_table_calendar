@@ -9,8 +9,6 @@ Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jal
 ![](https://i.ibb.co/Qb1Thp7/Screenshot-20210420-214031.png)</br></br>
 ![](https://github.com/irdeveloper89/jalali_calendar/blob/master/screenshots/screenshots.gif)
 
-## Youtube playlist
-You can follow [YouTube playlist](https://www.youtube.com/playlist?list=PL_YzUBDoYudSi3o4VBR97gtNTHIgb_DPX) of this package
 
 ## Usage
 
