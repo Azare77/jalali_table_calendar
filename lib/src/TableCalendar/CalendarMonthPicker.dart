@@ -293,45 +293,45 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
             ),
           ),
         ),
-        if(widget.showArrows)
-        PositionedDirectional(
-          top: 0.0,
-          start: 8.0,
-          child: Semantics(
-            sortKey: MonthPickerSortKey.previousMonth,
-            child: FadeTransition(
-              opacity: _chevronOpacityAnimation,
-              child: IconButton(
-                icon: Icon(Icons.chevron_left,
-                    color: Theme.of(context).textTheme.titleSmall?.color),
-                tooltip: _isDisplayingFirstMonth
-                    ? null
-                    : '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}',
-                onPressed:
-                    _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+        if (widget.showArrows)
+          PositionedDirectional(
+            top: 0.0,
+            start: 8.0,
+            child: Semantics(
+              sortKey: MonthPickerSortKey.previousMonth,
+              child: FadeTransition(
+                opacity: _chevronOpacityAnimation,
+                child: IconButton(
+                  icon: Icon(Icons.chevron_left,
+                      color: Theme.of(context).textTheme.titleSmall?.color),
+                  tooltip: _isDisplayingFirstMonth
+                      ? null
+                      : '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}',
+                  onPressed:
+                      _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+                ),
               ),
             ),
           ),
-        ),
-        if(widget.showArrows)
-        PositionedDirectional(
-          top: 0.0,
-          end: 8.0,
-          child: Semantics(
-            sortKey: MonthPickerSortKey.nextMonth,
-            child: FadeTransition(
-              opacity: _chevronOpacityAnimation,
-              child: IconButton(
-                icon: Icon(Icons.chevron_right,
-                    color: Theme.of(context).textTheme.titleSmall?.color),
-                tooltip: _isDisplayingLastMonth
-                    ? null
-                    : '${localizations.nextMonthTooltip} ${localizations.formatMonthYear(_nextMonthDate)}',
-                onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
+        if (widget.showArrows)
+          PositionedDirectional(
+            top: 0.0,
+            end: 8.0,
+            child: Semantics(
+              sortKey: MonthPickerSortKey.nextMonth,
+              child: FadeTransition(
+                opacity: _chevronOpacityAnimation,
+                child: IconButton(
+                  icon: Icon(Icons.chevron_right,
+                      color: Theme.of(context).textTheme.titleSmall?.color),
+                  tooltip: _isDisplayingLastMonth
+                      ? null
+                      : '${localizations.nextMonthTooltip} ${localizations.formatMonthYear(_nextMonthDate)}',
+                  onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
   }

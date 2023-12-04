@@ -135,7 +135,9 @@ class CalendarDayPicker extends StatelessWidget {
     Color color;
     TextStyle headerStyle = itemStyle!;
     for (String dayHeader in dayHeader()) {
-      color = (dayHeader == 'ج' || dayHeader == 'Su' ? Colors.red : itemStyle!.color)!;
+      color = (dayHeader == 'ج' || dayHeader == 'Su'
+          ? Colors.red
+          : itemStyle!.color)!;
       result.add(ExcludeSemantics(
         child: Center(
             child: Text(dayHeader, style: headerStyle.copyWith(color: color))),

@@ -269,8 +269,7 @@ class PersianDate {
       gD -= montDays[i];
     }
 
-    if (toDateTime)
-      return DateTime(gY, i, gD);
+    if (toDateTime) return DateTime(gY, i, gD);
     var gregorianDate;
     if (separator == null)
       gregorianDate = [gY, i, gD];
