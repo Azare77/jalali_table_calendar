@@ -118,7 +118,6 @@ class _DatePickerHeader extends StatelessWidget {
 
     final Widget yearButton = IgnorePointer(
       ignoring: mode != DatePickerMode.day,
-      ignoringSemantics: false,
       child: _DateHeaderButton(
         color: backgroundColor,
         onTap: Feedback.wrapForTap(
@@ -132,7 +131,6 @@ class _DatePickerHeader extends StatelessWidget {
 
     final Widget dayButton = IgnorePointer(
       ignoring: mode == DatePickerMode.day,
-      ignoringSemantics: false,
       child: _DateHeaderButton(
         color: backgroundColor,
         onTap: Feedback.wrapForTap(
@@ -1087,7 +1085,10 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           .replaceAll("nn", "mm")
           .replaceAll("n", "m");
 
-      Navigator.pop(context, Jiffy.parseFromDateTime(_selectedDate!).format(pattern:selectedFormat));
+      Navigator.pop(
+          context,
+          Jiffy.parseFromDateTime(_selectedDate!)
+              .format(pattern: selectedFormat));
     } else {
       Navigator.pop(context, selectpDate.getDate);
     }
