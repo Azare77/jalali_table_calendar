@@ -31,10 +31,18 @@ class _State extends State<MyApp> {
     if (picked != null) setState(() => _value = picked);
   }
 
-  DateTime today = DateTime.now();
+  late DateTime today;
+  late Map<DateTime, List<dynamic>> events;
 
   @override
   void initState() {
+    DateTime now = DateTime.now();
+    today = DateTime(now.year, now.month, now.day);
+    events = {
+      today: ['sample event', 66546],
+      today.add(Duration(days: 1)): [6, 5, 465, 1, 66546],
+      today.add(Duration(days: 2)): [6, 5, 465, 66546],
+    };
     super.initState();
     print(
         "Parse TO Format ${Gregorian(2019, 02, 20, 00, 19, 54, 000).toJalali()}");
@@ -73,11 +81,7 @@ class _State extends State<MyApp> {
                   context: context,
                   locale: Locale('fa'),
                   // add the events for each day
-                  events: {
-                    today: ['sample event', 66546],
-                    today.add(Duration(days: 1)): [6, 5, 465, 1, 66546],
-                    today.add(Duration(days: 2)): [6, 5, 465, 66546],
-                  },
+                  events: events,
                   //make marker for every day that have some events
                   marker: (date, events) {
                     return Positioned(
@@ -99,6 +103,7 @@ class _State extends State<MyApp> {
                   },
                   onDaySelected: (DateTime selectDate) {
                     print(selectDate);
+                    print(events[selectDate]?[0]);
                   }),
             ),
             Text('  مبدّل تاریخ و زمان ,‌ تاریخ هجری شمسی '),
@@ -152,12 +157,12 @@ class _State extends State<MyApp> {
           style: TextStyle(color: Colors.cyan),
         ),
         dateFormat: _format, onChanged: (year, month, day) {
-          if (year == null || month == null || day == null) return;
+      if (year == null || month == null || day == null) return;
       if (!showTitleActions) {
         _changeDatetime(year, month, day);
       }
     }, onConfirm: (year, month, day) {
-          if (year == null || month == null || day == null) return;
+      if (year == null || month == null || day == null) return;
       _changeDatetime(year, month, day);
       _valuePiker =
           " تاریخ ترکیبی : $_datetime  \n سال : $year \n  ماه :   $month \n  روز :  $day";
