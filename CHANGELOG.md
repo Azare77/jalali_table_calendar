@@ -30,3 +30,7 @@
 
 * Add onMonthChanged method
 * refactor some old codes
+
+## [1.2.1]
+* Fix Bug in first day on Gregorian
+* change example
