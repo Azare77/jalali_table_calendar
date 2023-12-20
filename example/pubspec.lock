@@ -62,6 +62,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -71,17 +76,17 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.0"
+    version: "0.18.1"
   jalali_table_calendar:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.2.1"
+    version: "1.2.2"
   jiffy:
     dependency: transitive
     description:
@@ -122,14 +127,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
-  shamsi_date:
-    dependency: "direct main"
-    description:
-      name: shamsi_date
-      sha256: "19020ef0a001db3eabcec8657f8aa10b93b3746641d9eca64db9a41e6506645c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   sky_engine:
     dependency: transitive
     description: flutter

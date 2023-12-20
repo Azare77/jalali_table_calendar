@@ -23,7 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shamsi_date: ^1.0.1
+  flutter_localizations:
+    sdk: flutter
   jalali_table_calendar:
     path: ../
 

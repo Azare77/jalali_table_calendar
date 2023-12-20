@@ -34,3 +34,6 @@
 ## [1.2.1]
 * Fix Bug in first day on Gregorian
 * change example
+
+## [1.2.2]
+* Fix Bug in Change year number in first month of year 

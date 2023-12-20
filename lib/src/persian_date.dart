@@ -177,44 +177,127 @@ class PersianDate {
   ];
 
   gregorianToJalali(int y, int m, int d, [String? separator]) {
-    var sumMonthDay = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-    var jY = 0;
-    if (y > 1600) {
-      jY = 979;
-      y -= 1600;
+    int differenceBetweenDays = 0;
+
+    int date = 0;
+    int year = 0;
+
+    int gregorianYear = y;
+    int gregorianMonth = m;
+    int gregorianDay = d;
+    List notLeapYear = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    List isLeapYear = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335];
+    num month;
+    if ((gregorianYear % 4) != 0) {
+      date = notLeapYear[gregorianMonth - 1] + gregorianDay;
+      if (date > 79) {
+        date = date - 79;
+        if (date <= 186) {
+          switch (date % 31) {
+            case 0:
+              month = date / 31;
+              date = 31;
+              break;
+            default:
+              month = (date / 31) + 1;
+              date = (date % 31);
+              break;
+          }
+          year = gregorianYear - 621;
+        } else {
+          date = date - 186;
+
+          switch (date % 30) {
+            case 0:
+              month = (date / 30) + 6;
+              date = 30;
+              break;
+            default:
+              month = (date / 30) + 7;
+              date = (date % 30);
+              break;
+          }
+          year = gregorianYear - 621;
+        }
+      } else {
+        if ((gregorianYear > 1996) && (gregorianYear % 4) == 1) {
+          differenceBetweenDays = 11;
+        } else {
+          differenceBetweenDays = 10;
+        }
+        date = date + differenceBetweenDays;
+
+        switch (date % 30) {
+          case 0:
+            month = (date / 30) + 9;
+            date = 30;
+            break;
+          default:
+            month = (date / 30) + 10;
+            date = (date % 30);
+            break;
+        }
+        year = gregorianYear - 622;
+      }
     } else {
-      jY = 0;
-      y -= 621;
-    }
-    var gy = (m > 2) ? y + 1 : y;
-    var day = (365 * y) +
-        ((gy + 3) ~/ 4) -
-        ((gy + 99) ~/ 100) +
-        ((gy + 399) ~/ 400) -
-        80 +
-        d +
-        sumMonthDay[m - 1];
-    jY += 33 * (day.round() / 12053).floor();
-    day %= 12053;
-    jY += 4 * (day.round() / 1461).floor();
-    day %= 1461;
-    jY += ((day.round() - 1) / 365).floor();
-    if (day > 365) day = ((day - 1).round() % 365);
-    int jm;
-    var jd;
-    int days = day.toInt();
-    if (days < 186) {
-      jm = 1 + (days ~/ 31);
-      jd = 1 + (days % 31);
-    } else {
-      jm = 7 + ((days - 186) ~/ 30);
-      jd = 1 + (days - 186) % 30;
+      date = isLeapYear[gregorianMonth - 1] + gregorianDay;
+
+      if (gregorianYear >= 1996) {
+        differenceBetweenDays = 79;
+      } else {
+        differenceBetweenDays = 80;
+      }
+      if (date > differenceBetweenDays) {
+        date = date - differenceBetweenDays;
+
+        if (date <= 186) {
+          switch (date % 31) {
+            case 0:
+              month = (date / 31);
+              date = 31;
+              break;
+            default:
+              month = (date / 31) + 1;
+              date = (date % 31);
+              break;
+          }
+          year = gregorianYear - 621;
+        } else {
+          date = date - 186;
+
+          switch (date % 30) {
+            case 0:
+              month = (date / 30) + 6;
+              date = 30;
+              break;
+            default:
+              month = (date / 30) + 7;
+              date = (date % 30);
+              break;
+          }
+          year = gregorianYear - 621;
+        }
+      } else {
+        date = date + 10;
+
+        switch (date % 30) {
+          case 0:
+            month = (date / 30) + 9;
+            date = 30;
+            break;
+          default:
+            month = (date / 30) + 10;
+            date = (date % 30);
+            break;
+        }
+        year = gregorianYear - 622;
+      }
     }
     var persianDate;
     if (separator == null)
-      persianDate = [jY, jm, jd];
+      persianDate = [year, month.floor(), date];
     else
-      persianDate = "$jY$separator$jm$separator$jd";
+      persianDate = "$year$separator${month.floor()}$separator$date";
     return persianDate;
   }
 
@@ -422,8 +505,6 @@ class PersianDate {
     if (format == null) format = _defualtVal;
 
     String newFormat = format;
-
-    print(parse.weekday);
 
     if (newFormat.indexOf(yyyy) != -1)
       newFormat = newFormat.replaceFirst(yyyy, _digits(jParse[0], 4));

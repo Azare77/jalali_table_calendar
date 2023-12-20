@@ -765,9 +765,6 @@ class _MonthPickerState extends State<MonthPicker>
                 opacity: _chevronOpacityAnimation,
                 child: IconButton(
                   icon: const Icon(Icons.chevron_left),
-                  tooltip: _isDisplayingFirstMonth
-                      ? null
-                      : '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}',
                   onPressed:
                       _isDisplayingFirstMonth ? null : _handlePreviousMonth,
                 ),
@@ -783,9 +780,6 @@ class _MonthPickerState extends State<MonthPicker>
                 opacity: _chevronOpacityAnimation,
                 child: IconButton(
                   icon: const Icon(Icons.chevron_right),
-                  tooltip: _isDisplayingLastMonth
-                      ? null
-                      : '${localizations.nextMonthTooltip} ${localizations.formatMonthYear(_nextMonthDate)}',
                   onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
                 ),
               ),

@@ -304,9 +304,6 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
                 child: IconButton(
                   icon: Icon(Icons.chevron_left,
                       color: Theme.of(context).textTheme.titleSmall?.color),
-                  tooltip: _isDisplayingFirstMonth
-                      ? null
-                      : '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}',
                   onPressed:
                       _isDisplayingFirstMonth ? null : _handlePreviousMonth,
                 ),
@@ -324,9 +321,6 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
                 child: IconButton(
                   icon: Icon(Icons.chevron_right,
                       color: Theme.of(context).textTheme.titleSmall?.color),
-                  tooltip: _isDisplayingLastMonth
-                      ? null
-                      : '${localizations.nextMonthTooltip} ${localizations.formatMonthYear(_nextMonthDate)}',
                   onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
                 ),
               ),

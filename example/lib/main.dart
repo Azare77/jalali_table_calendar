@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jalali_table_calendar/jalali_table_calendar.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 void main() {
-  runApp(new MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: new MyApp(),
-  ));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -44,8 +45,6 @@ class _State extends State<MyApp> {
       today.add(Duration(days: 2)): [6, 5, 465, 66546],
     };
     super.initState();
-    print(
-        "Parse TO Format ${Gregorian(2019, 02, 20, 00, 19, 54, 000).toJalali()}");
   }
 
   String numberFormatter(String number, bool persianNumber) {
@@ -116,11 +115,6 @@ class _State extends State<MyApp> {
             new ElevatedButton(
               onPressed: _showDatePicker,
               child: new Text('نمایش دیت پیکر'),
-            ),
-            Text(
-              "\nزمان و تاریخ فعلی سیستم :  ${Jalali.now()}",
-              textAlign: TextAlign.center,
-              textDirection: TextDirection.rtl,
             ),
             Divider(),
             Text(

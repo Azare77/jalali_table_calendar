@@ -247,7 +247,6 @@ class CalendarDayPicker extends StatelessWidget {
     final int year = displayedMonth.year;
     final int month = displayedMonth.month;
     final int mDay = displayedMonth.day;
-
     final PersianDate getPearData =
         PersianDate.pDate(gregorian: displayedMonth.toString());
     final PersianDate selectedPersianDate =
