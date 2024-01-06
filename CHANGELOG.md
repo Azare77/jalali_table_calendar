@@ -46,3 +46,6 @@
 
 ## [1.3.2]
 * Change on range changed method
+
+## [1.3.3]
+* Fix range selection over months

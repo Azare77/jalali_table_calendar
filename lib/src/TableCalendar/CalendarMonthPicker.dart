@@ -81,7 +81,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
   static final Animatable<double> _chevronOpacityTween =
       Tween<double>(begin: 1.0, end: 0.0)
           .chain(CurveTween(curve: Curves.easeInOut));
-
+  late DateTime startRange;
   @override
   void initState() {
     super.initState();
@@ -96,6 +96,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     lastMonthPage = monthPage;
     _dayPickerController = PageController(initialPage: monthPage);
     selectedDat = widget.selectedDate;
+    startRange = widget.selectedDate;
     _handleMonthPageChanged(monthPage);
     _updateCurrentDate();
 
@@ -203,6 +204,10 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     calendarInitialized = true;
     return CalendarDayPicker(
       selectedDate: widget.selectedDate,
+      startRangeDate: startRange,
+      onStartRangeChanged: (DateTime date) {
+        startRange = date;
+      },
       onRangeChanged: widget.onRangeChanged,
       isRange: widget.isRange,
       currentDate: _todayDate,

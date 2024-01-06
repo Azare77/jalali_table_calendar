@@ -12,6 +12,7 @@ const int kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
 
 const DayPickerGridDelegate _kDayPickerGridDelegate = DayPickerGridDelegate();
+
 typedef RangeChangedCallback = void Function(DateTime start, DateTime end);
 
 /// Displays the days of a given month and allows choosing a day.
@@ -33,10 +34,12 @@ class CalendarDayPicker extends StatefulWidget {
     required this.selectedDate,
     required this.currentDate,
     required this.onDayChanged,
+    required this.onStartRangeChanged,
     required this.onRangeChanged,
     required this.firstDate,
     required this.lastDate,
     required this.displayedMonth,
+    required this.startRangeDate,
     this.isRange = false,
     this.contextLocale,
     this.marker,
@@ -58,12 +61,15 @@ class CalendarDayPicker extends StatefulWidget {
   ///
   /// This date is highlighted in the picker.
   final DateTime selectedDate;
+  final DateTime startRangeDate;
 
   /// The current date at the time the picker is displayed.
   final DateTime currentDate;
 
   /// Called when the user picks a day.
   final ValueChanged<DateTime> onDayChanged;
+
+  final ValueChanged<DateTime> onStartRangeChanged;
 
   /// Called when the user picks a day.
   final RangeChangedCallback onRangeChanged;
@@ -205,7 +211,7 @@ class _CalendarDayPickerState extends State<CalendarDayPicker> {
   @override
   void initState() {
     isRange = widget.isRange;
-    if (isRange) startRange = widget.selectedDate;
+    if (isRange) startRange = widget.startRangeDate;
     super.initState();
   }
 
@@ -360,6 +366,7 @@ class _CalendarDayPickerState extends State<CalendarDayPicker> {
                   isRange = isRange;
                   startRange = isRange ? dayToBuild : null;
                 });
+                widget.onStartRangeChanged(dayToBuild);
                 widget.onDayChanged(dayToBuild);
               }
             },
