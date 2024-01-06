@@ -1,6 +1,6 @@
 name: jalali_table_calendar
 description: Table Calendar , Calendar DatePacker , Date picker and Date Convertor For Persian Date(Jalali/Shamsi date) with holidays.
-version: 1.3.0
+version: 1.3.1
 homepage: https://github.com/Azare77/jalali_table_calendar
 
 environment:

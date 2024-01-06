@@ -25,7 +25,7 @@ class DatePickerCalendar extends StatefulWidget {
     this.hour24Format,
     this.contextLocale,
     this.showArrows,
-    this.onRangeChanged,
+    this.onRangeChanged, required this.isRange,
   }) : super(key: key);
 
   final DateTime? initialDate;
@@ -41,6 +41,7 @@ class DatePickerCalendar extends StatefulWidget {
   final TimeOfDay? initialTime;
 
   final bool? showArrows;
+  final bool isRange;
 
   //day marker
   final MarkerBuilder? marker;
@@ -160,6 +161,7 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
           onDayChanged: _handleDayChanged,
           onRangeChanged: _handleRangeChanged,
           onMonthChanged: _handleMonthChanged,
+          isRange: widget.isRange,
           marker: widget.marker,
           events: widget.events,
           firstDate: widget.firstDate!,

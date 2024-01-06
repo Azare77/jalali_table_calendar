@@ -84,6 +84,7 @@ class JalaliTableCalendar extends StatefulWidget {
   final bool showTimePicker;
   final bool hour24Format;
   final bool showArrows;
+  final bool isRange;
   final TimeOfDay? initialTime;
   final MarkerBuilder? marker;
   final Map<DateTime, List>? events;
@@ -107,7 +108,8 @@ class JalaliTableCalendar extends StatefulWidget {
       this.events,
       this.onDaySelected,
       this.onMonthChanged,
-      this.onRangeChanged});
+      this.onRangeChanged,
+      this.isRange = false});
 
   @override
   _JalaliTableCalendarState createState() => _JalaliTableCalendarState();
@@ -155,6 +157,7 @@ class _JalaliTableCalendarState extends State<JalaliTableCalendar> {
         events: formattedEvents,
         contextLocale: widget.locale,
         onDaySelected: widget.onDaySelected,
+        isRange: widget.isRange,
         onRangeChanged: widget.onRangeChanged,
         onMonthChanged: widget.onMonthChanged,
         convertToGregorian: widget.convertToGregorian,

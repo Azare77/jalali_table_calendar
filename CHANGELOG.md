@@ -40,3 +40,6 @@
 
 ## [1.3.0]
 * Add Range Date Selection
+
+## [1.3.1]
+* Add Option to Enable Range Date Selection

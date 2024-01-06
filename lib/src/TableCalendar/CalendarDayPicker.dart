@@ -36,6 +36,7 @@ class CalendarDayPicker extends StatefulWidget {
     required this.firstDate,
     required this.lastDate,
     required this.displayedMonth,
+    this.isRange = false,
     this.contextLocale,
     this.marker,
     this.events,
@@ -65,6 +66,8 @@ class CalendarDayPicker extends StatefulWidget {
 
   /// Called when the user picks a day.
   final ValueChanged<List<DateTime>> onRangeChanged;
+
+  bool isRange;
 
   /// The earliest date the user is permitted to pick.
   final DateTime firstDate;
@@ -199,6 +202,13 @@ class _CalendarDayPickerState extends State<CalendarDayPicker> {
   late bool isRange;
 
   @override
+  void initState() {
+    isRange = widget.isRange;
+    if (isRange) startRange = widget.selectedDate;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     kDayPickerRowHeight = MediaQuery.of(context).size.height / 18;
@@ -288,8 +298,9 @@ class _CalendarDayPickerState extends State<CalendarDayPicker> {
               );
             }
           } else {
-            if (dayToBuild.isAfter(widget.selectedDate) &&
-                dayToBuild.isBefore(startRange!.add(Duration(days: 1)))) {
+            if ((dayToBuild.isAfter(widget.selectedDate) &&
+                    dayToBuild.isBefore(startRange!)) ||
+                dayToBuild == startRange) {
               itemStyle =
                   itemStyle?.copyWith(color: themeData.scaffoldBackgroundColor);
               decoration = BoxDecoration(
@@ -343,11 +354,13 @@ class _CalendarDayPickerState extends State<CalendarDayPicker> {
               if (isRange) widget.onRangeChanged([startRange!, dayToBuild]);
             },
             onLongPress: () {
-              setState(() {
-                isRange = isRange;
-                startRange = isRange ? dayToBuild : null;
-              });
-              widget.onDayChanged(dayToBuild);
+              if (widget.isRange) {
+                setState(() {
+                  isRange = isRange;
+                  startRange = isRange ? dayToBuild : null;
+                });
+                widget.onDayChanged(dayToBuild);
+              }
             },
             child: dayWidget,
           );

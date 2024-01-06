@@ -11,12 +11,19 @@ Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jal
 
 ## New Features
  to use date range selector you must hold on day
+```dart
+isRange: true,
+onRangeChanged: (List<DateTime> stEndRange) {
+    print(stEndRange[0]);
+    print(stEndRange[1]);
+},
+```
 
 ## Usage
 
 ## Import this line in Flutter pubspec.yaml
 ```dart
-jalali_table_calendar: ^1.3.0
+jalali_table_calendar: ^1.3.1
 ```
 ## To  Use Calendar Or DatePicker  , Import this line to your dart file
 ```dart

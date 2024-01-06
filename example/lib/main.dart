@@ -100,6 +100,7 @@ class _State extends State<MyApp> {
                   onMonthChanged: (DateTime date) {
                     print(date);
                   },
+                  isRange: true,
                   onRangeChanged: (List<DateTime> stEndRange) {
                     print(stEndRange[0]);
                     print(stEndRange[1]);

@@ -37,6 +37,7 @@ class CalendarMonthPicker extends StatefulWidget {
     this.marker,
     this.events,
     this.selectableDayPredicate,
+    required this.isRange,
   })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate) ||
             selectedDate.isAtSameMomentAs(firstDate)),
@@ -58,6 +59,7 @@ class CalendarMonthPicker extends StatefulWidget {
   /// Called when the user picks a month.
   final ValueChanged<DateTime> onDayChanged;
   final ValueChanged<List<DateTime>> onRangeChanged;
+  final bool isRange;
   final ValueChanged<DateTime> onMonthChanged;
 
   /// The earliest date the user is permitted to pick.
@@ -202,6 +204,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     return CalendarDayPicker(
       selectedDate: widget.selectedDate,
       onRangeChanged: widget.onRangeChanged,
+      isRange: widget.isRange,
       currentDate: _todayDate,
       onDayChanged: (date) {
         selectedDat = date;
