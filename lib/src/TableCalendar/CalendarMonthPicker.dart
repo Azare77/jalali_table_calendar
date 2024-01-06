@@ -28,6 +28,7 @@ class CalendarMonthPicker extends StatefulWidget {
     Key? key,
     required this.selectedDate,
     required this.onDayChanged,
+    required this.onRangeChanged,
     required this.onMonthChanged,
     required this.firstDate,
     required this.lastDate,
@@ -56,6 +57,7 @@ class CalendarMonthPicker extends StatefulWidget {
 
   /// Called when the user picks a month.
   final ValueChanged<DateTime> onDayChanged;
+  final ValueChanged<List<DateTime>> onRangeChanged;
   final ValueChanged<DateTime> onMonthChanged;
 
   /// The earliest date the user is permitted to pick.
@@ -199,6 +201,7 @@ class _CalendarMonthPickerState extends State<CalendarMonthPicker>
     calendarInitialized = true;
     return CalendarDayPicker(
       selectedDate: widget.selectedDate,
+      onRangeChanged: widget.onRangeChanged,
       currentDate: _todayDate,
       onDayChanged: (date) {
         selectedDat = date;

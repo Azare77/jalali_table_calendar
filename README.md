@@ -9,12 +9,14 @@ Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jal
 ![](https://i.ibb.co/Qb1Thp7/Screenshot-20210420-214031.png)</br></br>
 ![](https://github.com/irdeveloper89/jalali_calendar/blob/master/screenshots/screenshots.gif)
 
+## New Features
+ to use date range selector you must hold on day
 
 ## Usage
 
 ## Import this line in Flutter pubspec.yaml
 ```dart
-jalali_table_calendar: ^1.2.2
+jalali_table_calendar: ^1.3.0
 ```
 ## To  Use Calendar Or DatePicker  , Import this line to your dart file
 ```dart

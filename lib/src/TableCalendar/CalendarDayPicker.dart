@@ -26,15 +26,13 @@ const DayPickerGridDelegate _kDayPickerGridDelegate = DayPickerGridDelegate();
 ///  * [showDatePicker].
 ///  * <https://material.google.com/components/pickers.html#pickers-date-pickers>
 // ignore: must_be_immutable
-class CalendarDayPicker extends StatelessWidget {
-  /// Creates a day picker.
-  ///
-  /// Rarely used directly. Instead, typically used as part of a [CalendarMonthPicker].
+class CalendarDayPicker extends StatefulWidget {
   CalendarDayPicker({
     Key? key,
     required this.selectedDate,
     required this.currentDate,
     required this.onDayChanged,
+    required this.onRangeChanged,
     required this.firstDate,
     required this.lastDate,
     required this.displayedMonth,
@@ -65,6 +63,9 @@ class CalendarDayPicker extends StatelessWidget {
   /// Called when the user picks a day.
   final ValueChanged<DateTime> onDayChanged;
 
+  /// Called when the user picks a day.
+  final ValueChanged<List<DateTime>> onRangeChanged;
+
   /// The earliest date the user is permitted to pick.
   final DateTime firstDate;
 
@@ -79,28 +80,15 @@ class CalendarDayPicker extends StatelessWidget {
 
   final Locale? contextLocale;
 
+  @override
+  State<CalendarDayPicker> createState() => _CalendarDayPickerState();
+}
+
+class _CalendarDayPickerState extends State<CalendarDayPicker> {
   late TextStyle? itemStyle;
 
-  /// Builds widgets showing abbreviated days of week. The first widget in the
-  /// returned list corresponds to the first day of week for the current locale.
-  ///
-  /// Examples:
-  ///
-  /// ```
-  /// ┌ Sunday is the first day of week in the US (en_US)
-  /// |
-  /// S M T W T F S  <-- the returned list contains these widgets
-  /// _ _ _ _ _ 1 2
-  /// 3 4 5 6 7 8 9
-  ///
-  /// ┌ But it's Monday in the UK (en_GB)
-  /// |
-  /// M T W T F S S  <-- the returned list contains these widgets
-  /// _ _ _ _ 1 2 3
-  /// 4 5 6 7 8 9 10
-  /// ```
-  ///
-  ///
+  DateTime? startRange;
+
   static List<String> dayShort = const [
     'شنبه',
     'یکشنبه',
@@ -171,38 +159,6 @@ class CalendarDayPicker extends StatelessWidget {
     return _daysInMonth[month! - 1];
   }
 
-  /// Computes the offset from the first day of week that the first day of the
-  /// [month] falls on.
-  ///
-  /// For example, September 1, 2017 falls on a Friday, which in the calendar
-  /// localized for United States English appears as:
-  ///
-  /// ```
-  /// S M T W T F S
-  /// _ _ _ _ _ 1 2
-  /// ```
-  ///
-  /// The offset for the first day of the months is the number of leading blanks
-  /// in the calendar, i.e. 5.
-  ///
-  /// The same date localized for the Russian calendar has a different offset,
-  /// because the first day of week is Monday rather than Sunday:
-  ///
-  /// ```
-  /// M T W T F S S
-  /// _ _ _ _ 1 2 3
-  /// ```
-  ///
-  /// So the offset is 4, rather than 5.
-  ///
-  /// This code consolidates the following:
-  ///
-  /// - [DateTime.weekday] provides a 1-based index into days of week, with 1
-  ///   falling on Monday.
-  /// - [MaterialLocalizations.firstDayOfWeekIndex] provides a 0-based index
-  ///   into the [MaterialLocalizations.narrowWeekdays] list.
-  /// - [MaterialLocalizations.narrowWeekdays] list provides localized names of
-  ///   days of week, always starting with Sunday and ending with Saturday.
   final PersianDate date = PersianDate.pDate();
 
   String _digits(int? value, int length) {
@@ -226,17 +182,21 @@ class CalendarDayPicker extends StatelessWidget {
       '8': '۸',
       '9': '۹',
     };
-    if (contextLocale == Locale('fa', 'IR') || contextLocale == Locale('fa'))
+    if (widget.contextLocale == Locale('fa', 'IR') ||
+        widget.contextLocale == Locale('fa'))
       numbers.forEach((key, value) => number = number.replaceAll(key, value));
     return number;
   }
 
   List<String> dayHeader() {
-    if (contextLocale == Locale('fa', 'IR') || contextLocale == Locale('fa'))
+    if (widget.contextLocale == Locale('fa', 'IR') ||
+        widget.contextLocale == Locale('fa'))
       return dayH;
     else
       return dayEn;
   }
+
+  late bool isRange;
 
   @override
   Widget build(BuildContext context) {
@@ -244,16 +204,16 @@ class CalendarDayPicker extends StatelessWidget {
     kDayPickerRowHeight = MediaQuery.of(context).size.height / 18;
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
-    final int year = displayedMonth.year;
-    final int month = displayedMonth.month;
-    final int mDay = displayedMonth.day;
+    final int year = widget.displayedMonth.year;
+    final int month = widget.displayedMonth.month;
+    final int mDay = widget.displayedMonth.day;
     final PersianDate getPearData =
-        PersianDate.pDate(gregorian: displayedMonth.toString());
+        PersianDate.pDate(gregorian: widget.displayedMonth.toString());
     final PersianDate selectedPersianDate =
-        PersianDate.pDate(gregorian: selectedDate.toString());
+        PersianDate.pDate(gregorian: widget.selectedDate.toString());
 
     final PersianDate currentPDate =
-        PersianDate.pDate(gregorian: currentDate.toString());
+        PersianDate.pDate(gregorian: widget.currentDate.toString());
 
     final List<Widget> labels = <Widget>[];
 
@@ -285,10 +245,10 @@ class CalendarDayPicker extends StatelessWidget {
         final PersianDate getHoliday =
             PersianDate.pDate(gregorian: dayToBuild.toString());
 
-        final bool disabled = dayToBuild.isAfter(lastDate) ||
-            dayToBuild.isBefore(firstDate) ||
-            (selectableDayPredicate != null &&
-                !selectableDayPredicate!(dayToBuild));
+        final bool disabled = dayToBuild.isAfter(widget.lastDate) ||
+            dayToBuild.isBefore(widget.firstDate) ||
+            (widget.selectableDayPredicate != null &&
+                !widget.selectableDayPredicate!(dayToBuild));
 
         BoxDecoration? decoration;
         itemStyle = themeData.textTheme.titleLarge;
@@ -296,6 +256,7 @@ class CalendarDayPicker extends StatelessWidget {
             selectedPersianDate.year == getPearData.year &&
                 selectedPersianDate.month == getPearData.month &&
                 selectedPersianDate.day == day;
+
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           itemStyle =
@@ -315,12 +276,41 @@ class CalendarDayPicker extends StatelessWidget {
           // The current day gets a different text color.
           itemStyle = itemStyle!.copyWith(color: Colors.red);
         }
-
+        if (isRange && startRange != null) {
+          if (widget.selectedDate.isAfter(startRange!)) {
+            if ((dayToBuild.isAfter(startRange!.subtract(Duration(days: 1))) &&
+                dayToBuild.isBefore(widget.selectedDate))) {
+              itemStyle =
+                  itemStyle?.copyWith(color: themeData.scaffoldBackgroundColor);
+              decoration = BoxDecoration(
+                color: themeData.primaryColor,
+                shape: BoxShape.circle,
+              );
+            }
+          } else {
+            if (dayToBuild.isAfter(widget.selectedDate) &&
+                dayToBuild.isBefore(startRange!.add(Duration(days: 1)))) {
+              itemStyle =
+                  itemStyle?.copyWith(color: themeData.scaffoldBackgroundColor);
+              decoration = BoxDecoration(
+                color: themeData.primaryColor,
+                shape: BoxShape.circle,
+              );
+            }
+          }
+        }
+        if (getHoliday.isHoliday) {
+          // The current day gets a different text color.
+          itemStyle = itemStyle!.copyWith(color: Colors.red);
+        }
         // prepare to events to return to view
         List? dayEvents = [];
-        if (events![dayToBuild] != null) dayEvents = events![dayToBuild];
+        if (widget.events![dayToBuild] != null)
+          dayEvents = widget.events![dayToBuild];
         //get Marker for day
-        Widget? mark = marker != null ? marker!(dayToBuild, dayEvents) : null;
+        Widget? mark = widget.marker != null
+            ? widget.marker!(dayToBuild, dayEvents)
+            : null;
         Widget dayWidget = Container(
           decoration: decoration,
           child: Stack(
@@ -337,10 +327,10 @@ class CalendarDayPicker extends StatelessWidget {
                   ),
                 ),
               ),
-              if (marker != null &&
+              if (widget.marker != null &&
                   mark != null &&
-                  events != null &&
-                  events![dayToBuild] != null)
+                  widget.events != null &&
+                  widget.events![dayToBuild] != null)
                 mark
             ],
           ),
@@ -349,7 +339,15 @@ class CalendarDayPicker extends StatelessWidget {
           dayWidget = GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              onDayChanged(dayToBuild);
+              widget.onDayChanged(dayToBuild);
+              if (isRange) widget.onRangeChanged([startRange!, dayToBuild]);
+            },
+            onLongPress: () {
+              setState(() {
+                isRange = isRange;
+                startRange = isRange ? dayToBuild : null;
+              });
+              widget.onDayChanged(dayToBuild);
             },
             child: dayWidget,
           );
@@ -357,6 +355,7 @@ class CalendarDayPicker extends StatelessWidget {
         labels.add(dayWidget);
       }
     }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Directionality(

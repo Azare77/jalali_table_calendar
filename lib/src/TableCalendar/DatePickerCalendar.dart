@@ -25,6 +25,7 @@ class DatePickerCalendar extends StatefulWidget {
     this.hour24Format,
     this.contextLocale,
     this.showArrows,
+    this.onRangeChanged,
   }) : super(key: key);
 
   final DateTime? initialDate;
@@ -50,6 +51,7 @@ class DatePickerCalendar extends StatefulWidget {
 
   /// Called whenever any day gets tapped.
   final OnDaySelected? onDaySelected;
+  final OnRangeChanged? onRangeChanged;
   final OnMonthChanged? onMonthChanged;
 
   @override
@@ -124,6 +126,10 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
     });
   }
 
+  void _handleRangeChanged(List<DateTime> value) {
+    if (widget.onRangeChanged != null) widget.onRangeChanged!(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Widget picker = SizedBox(
@@ -152,6 +158,7 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
           key: _pickerKey,
           selectedDate: _selectedDate!,
           onDayChanged: _handleDayChanged,
+          onRangeChanged: _handleRangeChanged,
           onMonthChanged: _handleMonthChanged,
           marker: widget.marker,
           events: widget.events,

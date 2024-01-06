@@ -36,4 +36,7 @@
 * change example
 
 ## [1.2.2]
-* Fix Bug in Change year number in first month of year 
+* Fix Bug in Change year number in first month of year
+
+## [1.3.0]
+* Add Range Date Selection
