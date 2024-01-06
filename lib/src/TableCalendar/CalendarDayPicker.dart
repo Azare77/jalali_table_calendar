@@ -12,6 +12,7 @@ const int kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
 
 const DayPickerGridDelegate _kDayPickerGridDelegate = DayPickerGridDelegate();
+typedef RangeChangedCallback = void Function(DateTime start, DateTime end);
 
 /// Displays the days of a given month and allows choosing a day.
 ///
@@ -65,7 +66,7 @@ class CalendarDayPicker extends StatefulWidget {
   final ValueChanged<DateTime> onDayChanged;
 
   /// Called when the user picks a day.
-  final ValueChanged<List<DateTime>> onRangeChanged;
+  final RangeChangedCallback onRangeChanged;
 
   bool isRange;
 
@@ -351,7 +352,7 @@ class _CalendarDayPickerState extends State<CalendarDayPicker> {
             behavior: HitTestBehavior.opaque,
             onTap: () {
               widget.onDayChanged(dayToBuild);
-              if (isRange) widget.onRangeChanged([startRange!, dayToBuild]);
+              if (isRange) widget.onRangeChanged(startRange!, dayToBuild);
             },
             onLongPress: () {
               if (widget.isRange) {

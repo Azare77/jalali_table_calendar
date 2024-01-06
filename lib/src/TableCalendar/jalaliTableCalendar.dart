@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:jalali_table_calendar/src/TableCalendar/CalendarDayPicker.dart';
 import 'DatePickerCalendar.dart';
 
 /// Initial display mode of the date picker calendar.
@@ -21,8 +22,6 @@ enum DatePickerModeCalendar {
 bool calendarInitialized = false;
 //callback function when user change day
 typedef void OnDaySelected(DateTime day);
-//callback function when user change range
-typedef void OnRangeChanged(List<DateTime> days);
 //callback function when user change month
 typedef void OnMonthChanged(DateTime monthsToAdd);
 //callback function for create marker
@@ -89,7 +88,7 @@ class JalaliTableCalendar extends StatefulWidget {
   final MarkerBuilder? marker;
   final Map<DateTime, List>? events;
   final OnDaySelected? onDaySelected;
-  final OnRangeChanged? onRangeChanged;
+  final RangeChangedCallback? onRangeChanged;
   final OnMonthChanged? onMonthChanged;
 
   JalaliTableCalendar(

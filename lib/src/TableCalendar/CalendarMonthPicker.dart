@@ -58,7 +58,7 @@ class CalendarMonthPicker extends StatefulWidget {
 
   /// Called when the user picks a month.
   final ValueChanged<DateTime> onDayChanged;
-  final ValueChanged<List<DateTime>> onRangeChanged;
+  final RangeChangedCallback onRangeChanged;
   final bool isRange;
   final ValueChanged<DateTime> onMonthChanged;
 

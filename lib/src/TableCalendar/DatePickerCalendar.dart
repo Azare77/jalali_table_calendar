@@ -53,7 +53,7 @@ class DatePickerCalendar extends StatefulWidget {
 
   /// Called whenever any day gets tapped.
   final OnDaySelected? onDaySelected;
-  final OnRangeChanged? onRangeChanged;
+  final RangeChangedCallback? onRangeChanged;
   final OnMonthChanged? onMonthChanged;
 
   @override
@@ -128,8 +128,8 @@ class _DatePickerCalendarState extends State<DatePickerCalendar> {
     });
   }
 
-  void _handleRangeChanged(List<DateTime> value) {
-    if (widget.onRangeChanged != null) widget.onRangeChanged!(value);
+  void _handleRangeChanged(start, end) {
+    if (widget.onRangeChanged != null) widget.onRangeChanged!(start, end);
   }
 
   @override

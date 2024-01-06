@@ -101,9 +101,9 @@ class _State extends State<MyApp> {
                     print(date);
                   },
                   isRange: true,
-                  onRangeChanged: (List<DateTime> stEndRange) {
-                    print(stEndRange[0]);
-                    print(stEndRange[1]);
+                  onRangeChanged: (DateTime start, DateTime end) {
+                    print(start);
+                    print(end);
                   },
                   onDaySelected: (DateTime selectDate) {
                     print(selectDate);

@@ -15,17 +15,17 @@ Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jal
  for set First date of range you should hold on day by default first date is the current date
 ```dart
 isRange: true,
-onRangeChanged: (List<DateTime> stEndRange) {
-    print(stEndRange[0]);
-    print(stEndRange[1]);
-},
+onRangeChanged: (DateTime start, DateTime end) {
+  print(start);
+  print(end);
+}
 ```
 
 ## Usage
 
 ## Import this line in Flutter pubspec.yaml
 ```dart
-jalali_table_calendar: ^1.3.1
+jalali_table_calendar: ^1.3.2
 ```
 ## To  Use Calendar Or DatePicker  , Import this line to your dart file
 ```dart
