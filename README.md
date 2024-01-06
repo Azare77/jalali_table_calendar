@@ -9,8 +9,9 @@ Modified and Completed Version of [jalali_calendar](https://pub.dev/packages/jal
 ![](https://i.ibb.co/Qb1Thp7/Screenshot-20210420-214031.png)</br></br>
 ![](https://github.com/irdeveloper89/jalali_calendar/blob/master/screenshots/screenshots.gif)
 
-## New Features
- to use date range selector you must hold on day
+## New Features (Range Selection)
+ to use date range selector you must pass isRange:true
+ for set First date of range you should hold on day by default first date is the current date
 ```dart
 isRange: true,
 onRangeChanged: (List<DateTime> stEndRange) {
