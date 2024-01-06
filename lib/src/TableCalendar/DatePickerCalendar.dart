@@ -25,7 +25,8 @@ class DatePickerCalendar extends StatefulWidget {
     this.hour24Format,
     this.contextLocale,
     this.showArrows,
-    this.onRangeChanged, required this.isRange,
+    this.onRangeChanged,
+    required this.isRange,
   }) : super(key: key);
 
   final DateTime? initialDate;
