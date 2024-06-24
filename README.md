@@ -29,7 +29,7 @@ onRangeChanged: (DateTime start, DateTime end) {
 
 ## Import this line in Flutter pubspec.yaml
 ```dart
-jalali_table_calendar: ^1.3.3
+jalali_table_calendar: ^1.3.5
 ```
 ## To  Use Calendar Or DatePicker  , Import this line to your dart file
 ```dart

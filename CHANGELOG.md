@@ -52,3 +52,6 @@
 
 ## [1.3.4]
 * Migrate to New Package
+
+## [1.3.5]
+* Migrate to New Package
