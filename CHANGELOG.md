@@ -49,3 +49,6 @@
 
 ## [1.3.3]
 * Fix range selection over months
+
+## [1.3.4]
+* Migrate to New Package
