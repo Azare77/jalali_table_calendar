@@ -1,6 +1,6 @@
 # New Package
-#### This Package will receive updates no more use this package instead  [jalali_calendar_plus](https://pub.dev/packages/jalali_calendar_plus)
-#### این پکیج دیگر آپدیت نمیشود و به جای این از پکیج مقابل استفاده کنید  [jalali_calendar_plus](https://pub.dev/packages/jalali_calendar_plus)
+#### This Package will receive updates no more use this package instead  [jalali_calendar_plus](https://pub.dev/packages/jalali_table_calendar_plus)
+#### این پکیج دیگر آپدیت نمیشود و به جای این از پکیج مقابل استفاده کنید  [jalali_calendar_plus](https://pub.dev/packages/jalali_table_calendar_plus)
 
 # jalali Table Calendar
 
